@@ -151,7 +151,9 @@ module.exports = class ApiHandler {
             /** executed after all middleware finished */
 
             let body = req.body || {};
+            let query = req.query || {};
             let result = await this._exec({targetModule: this.managers[moduleName], fnName, data: {
+                ...query,
                 ...body, 
                 ...results,
                 res,
