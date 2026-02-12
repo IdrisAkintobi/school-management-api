@@ -1,6 +1,7 @@
 const jwt        = require('jsonwebtoken');
 const { nanoid } = require('nanoid');
 const md5        = require('md5');
+const AdminModel = require('../entities/admin/admin.schema');
 
 
 module.exports = class TokenManager {
@@ -60,14 +61,20 @@ module.exports = class TokenManager {
 
 
     /** generate shortId based on a longId */
-    v1_createShortToken({__longToken, __device}){
+    async v1_createShortToken({__longToken, __device}){
         let decoded = __longToken;
+        
+        const admin = await AdminModel.findById(decoded.userId).select('role schoolId');
+        
+        if (!admin) {
+            return { error: 'User not found' };
+        }
         
         let shortToken = this.genShortToken({
             userId: decoded.userId, 
             userKey: decoded.userKey,
-            role: decoded.role,
-            schoolId: decoded.schoolId,
+            role: admin.role,
+            schoolId: admin.schoolId?.toString() || null,
             sessionId: nanoid(),
             deviceId: md5(__device),
         });
