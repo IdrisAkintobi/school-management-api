@@ -7,23 +7,22 @@ module.exports = class TokenManager {
 
     constructor({config}){
         this.config              = config;
-        this.longTokenExpiresIn  = '3y';
-        this.shortTokenExpiresIn = '1y';
+        this.longTokenExpiresIn  = config.dotEnv.LONG_TOKEN_EXPIRES_IN;
+        this.shortTokenExpiresIn = config.dotEnv.SHORT_TOKEN_EXPIRES_IN;
 
         this.httpExposed         = ['v1_createShortToken'];
     }
 
     /** 
-     * short token are issue from long token 
-     * short tokens are issued for 72 hours 
+     * short token are issued from long token 
      * short tokens are connected to user-agent
      * short token are used on the soft logout 
      * short tokens are used for account switch 
      * short token represents a device. 
      * long token represents a single user. 
      *  
-     * long token contains immutable data and long lived
-     * master key must exists on any device to create short tokens
+     * long token contains immutable data
+     * master key must exist on any device to create short tokens
      */
     genLongToken({userId, userKey}){
         return jwt.sign(
@@ -36,9 +35,9 @@ module.exports = class TokenManager {
         })
     }
 
-    genShortToken({userId, userKey, sessionId, deviceId}){
+    genShortToken({userId, userKey, sessionId, deviceId, role, schoolId}){
         return jwt.sign(
-            { userKey, userId, sessionId, deviceId}, 
+            { userKey, userId, sessionId, deviceId, role, schoolId }, 
             this.config.dotEnv.SHORT_TOKEN_SECRET, 
             {expiresIn: this.shortTokenExpiresIn
         })
@@ -62,14 +61,13 @@ module.exports = class TokenManager {
 
     /** generate shortId based on a longId */
     v1_createShortToken({__longToken, __device}){
-
-
         let decoded = __longToken;
-        console.log(decoded);
         
         let shortToken = this.genShortToken({
             userId: decoded.userId, 
             userKey: decoded.userKey,
+            role: decoded.role,
+            schoolId: decoded.schoolId,
             sessionId: nanoid(),
             deviceId: md5(__device),
         });
