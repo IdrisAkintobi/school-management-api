@@ -83,7 +83,8 @@ const studentSchema = new mongoose.Schema({
             type: Date,
             default: Date.now
         },
-        reason: String
+        reason: String,
+        _id: false
     }]
 }, {
     timestamps: true,
@@ -92,6 +93,7 @@ const studentSchema = new mongoose.Schema({
             ret.id = ret._id;
             delete ret._id;
             delete ret.__v;
+            delete ret.deletedAt;
             return ret;
         }
     }
