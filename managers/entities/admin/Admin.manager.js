@@ -152,7 +152,7 @@ module.exports = class Admin {
 
             const admin = await AdminModel.findOne({ _id: adminId, deletedAt: null }).select('-password').lean();
             if (!admin) {
-                return { error: 'Admin not found' };
+                return { error: 'Admin not found', code: 404 };
             }
 
             return { 

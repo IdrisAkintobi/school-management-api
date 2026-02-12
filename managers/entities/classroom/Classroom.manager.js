@@ -38,7 +38,7 @@ module.exports = class Classroom {
 
             const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
-                return { error: 'School not found or inactive' };
+                return { error: 'School not found or inactive', code: 404 };
             }
 
             const classroom = new ClassroomModel({
@@ -71,11 +71,11 @@ module.exports = class Classroom {
 
             const classroom = await ClassroomModel.findOne({ _id: classroomId, deletedAt: null });
             if (!classroom) {
-                return { error: 'Classroom not found' };
+                return { error: 'Classroom not found', code: 404 };
             }
 
             if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== classroom.schoolId.toString()) {
-                return { error: 'Unauthorized: Cannot update classroom from another school' };
+                return { error: 'Classroom not found', code: 404 };
             }
 
             if (capacity !== undefined && capacity < classroom.currentEnrollment) {
@@ -160,11 +160,11 @@ module.exports = class Classroom {
 
             const classroom = await ClassroomModel.findOne({ _id: classroomId, deletedAt: null }).populate('schoolId', 'name');
             if (!classroom) {
-                return { error: 'Classroom not found' };
+                return { error: 'Classroom not found', code: 404 };
             }
 
             if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== classroom.schoolId._id.toString()) {
-                return { error: 'Unauthorized: Cannot access classroom from another school' };
+                return { error: 'Classroom not found', code: 404 };
             }
 
             return { classroom };
@@ -184,11 +184,11 @@ module.exports = class Classroom {
 
             const classroom = await ClassroomModel.findOne({ _id: classroomId, deletedAt: null });
             if (!classroom) {
-                return { error: 'Classroom not found' };
+                return { error: 'Classroom not found', code: 404 };
             }
 
             if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== classroom.schoolId.toString()) {
-                return { error: 'Unauthorized: Cannot delete classroom from another school' };
+                return { error: 'Classroom not found', code: 404 };
             }
 
             const studentCount = await StudentModel.countDocuments({ classroomId, deletedAt: null });
@@ -216,11 +216,11 @@ module.exports = class Classroom {
 
             const classroom = await ClassroomModel.findOne({ _id: classroomId });
             if (!classroom) {
-                return { error: 'Classroom not found' };
+                return { error: 'Classroom not found', code: 404 };
             }
 
             if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== classroom.schoolId.toString()) {
-                return { error: 'Unauthorized: Cannot restore classroom from another school' };
+                return { error: 'Classroom not found', code: 404 };
             }
 
             if (!classroom.deletedAt) {
@@ -229,7 +229,7 @@ module.exports = class Classroom {
 
             const school = await SchoolModel.findOne({ _id: classroom.schoolId, deletedAt: null });
             if (!school) {
-                return { error: 'Cannot restore: School is deleted or not found' };
+                return { error: 'Cannot restore: School is deleted or not found', code: 404 };
             }
 
             const restoredClassroom = await ClassroomModel.findByIdAndUpdate(

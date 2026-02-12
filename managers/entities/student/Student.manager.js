@@ -39,12 +39,12 @@ module.exports = class Student {
 
             const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
-                return { error: 'School not found or inactive' };
+                return { error: 'School not found or inactive', code: 404 };
             }
 
             const classroom = await ClassroomModel.findOne({ _id: classroomId, schoolId, deletedAt: null });
             if (!classroom) {
-                return { error: 'Classroom not found or inactive' };
+                return { error: 'Classroom not found or inactive', code: 404 };
             }
 
             if (classroom.currentEnrollment >= classroom.capacity) {
@@ -99,11 +99,11 @@ module.exports = class Student {
 
             const student = await StudentModel.findOne({ _id: studentId, deletedAt: null });
             if (!student) {
-                return { error: 'Student not found' };
+                return { error: 'Student not found', code: 404 };
             }
 
             if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== student.schoolId.toString()) {
-                return { error: 'Unauthorized: Cannot update student from another school' };
+                return { error: 'Student not found', code: 404 };
             }
 
             if (email && email !== student.email) {
@@ -159,7 +159,7 @@ module.exports = class Student {
             }
 
             if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== student.schoolId.toString()) {
-                return { error: 'Unauthorized: Cannot transfer student from another school' };
+                return { error: 'Student not found', code: 404 };
             }
 
             if (student.schoolId.toString() === toSchoolId && student.classroomId.toString() === toClassroomId) {
@@ -168,12 +168,12 @@ module.exports = class Student {
 
             const toSchool = await SchoolModel.findOne({ _id: toSchoolId, deletedAt: null });
             if (!toSchool) {
-                return { error: 'Target school not found or inactive' };
+                return { error: 'Target school not found or inactive', code: 404 };
             }
 
             const toClassroom = await ClassroomModel.findOne({ _id: toClassroomId, schoolId: toSchoolId, deletedAt: null });
             if (!toClassroom) {
-                return { error: 'Target classroom not found or inactive' };
+                return { error: 'Target classroom not found or inactive', code: 404 };
             }
 
             if (toClassroom.currentEnrollment >= toClassroom.capacity) {
@@ -272,11 +272,11 @@ module.exports = class Student {
                 .populate('classroomId', 'name grade section');
 
             if (!student) {
-                return { error: 'Student not found' };
+                return { error: 'Student not found', code: 404 };
             }
 
             if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== student.schoolId._id.toString()) {
-                return { error: 'Unauthorized: Cannot access student from another school' };
+                return { error: 'Student not found', code: 404 };
             }
 
             return { student };
@@ -296,11 +296,11 @@ module.exports = class Student {
 
             const student = await StudentModel.findOne({ _id: studentId, deletedAt: null });
             if (!student) {
-                return { error: 'Student not found' };
+                return { error: 'Student not found', code: 404 };
             }
 
             if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== student.schoolId.toString()) {
-                return { error: 'Unauthorized: Cannot delete student from another school' };
+                return { error: 'Student not found', code: 404 };
             }
 
             await StudentModel.findByIdAndUpdate(studentId, { deletedAt: new Date() });
@@ -324,11 +324,11 @@ module.exports = class Student {
 
             const student = await StudentModel.findOne({ _id: studentId });
             if (!student) {
-                return { error: 'Student not found' };
+                return { error: 'Student not found', code: 404 };
             }
 
             if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== student.schoolId.toString()) {
-                return { error: 'Unauthorized: Cannot restore student from another school' };
+                return { error: 'Student not found', code: 404 };
             }
 
             if (!student.deletedAt) {
@@ -337,12 +337,12 @@ module.exports = class Student {
 
             const school = await SchoolModel.findOne({ _id: student.schoolId, deletedAt: null });
             if (!school) {
-                return { error: 'Cannot restore: School is deleted or not found' };
+                return { error: 'Cannot restore: School is deleted or not found', code: 404 };
             }
 
             const classroom = await ClassroomModel.findOne({ _id: student.classroomId, deletedAt: null });
             if (!classroom) {
-                return { error: 'Cannot restore: Classroom is deleted or not found' };
+                return { error: 'Cannot restore: Classroom is deleted or not found', code: 404 };
             }
 
             if (classroom.currentEnrollment >= classroom.capacity) {

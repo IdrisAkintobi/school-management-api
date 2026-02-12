@@ -72,7 +72,7 @@ module.exports = class School {
 
             const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
-                return { error: 'School not found' };
+                return { error: 'School not found', code: 404 };
             }
 
             const updateData = {};
@@ -141,7 +141,7 @@ module.exports = class School {
 
             const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
-                return { error: 'School not found' };
+                return { error: 'School not found', code: 404 };
             }
 
             return { school };
@@ -175,7 +175,7 @@ module.exports = class School {
 
             const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
-                return { error: 'School not found' };
+                return { error: 'School not found', code: 404 };
             }
 
             await SchoolModel.findByIdAndUpdate(
@@ -202,7 +202,7 @@ module.exports = class School {
 
             const school = await SchoolModel.findOne({ _id: schoolId });
             if (!school) {
-                return { error: 'School not found' };
+                return { error: 'School not found', code: 404 };
             }
 
             if (!school.deletedAt) {
