@@ -22,10 +22,10 @@ module.exports = class Student {
             ];
         }
 
-    async enroll({ schoolId, classroomId, firstName, lastName, dateOfBirth, gender, email, phone, address, guardianName, guardianPhone, __schoolAdmin }) {
+    async enroll({ schoolId, classroomId, students, __schoolAdmin }) {
         try {
             const { error } = this.validators.enroll.validate({
-                schoolId, classroomId, firstName, lastName, dateOfBirth, gender, email, phone, address, guardianName, guardianPhone
+                schoolId, classroomId, students
             });
             if (error) return { error: error.details[0].message };
 
@@ -47,42 +47,61 @@ module.exports = class Student {
                 return { error: 'Classroom not found or inactive', code: 404 };
             }
 
-            if (classroom.currentEnrollment >= classroom.capacity) {
-                return { error: 'Classroom is at full capacity' };
+            const availableCapacity = classroom.capacity - classroom.currentEnrollment;
+            if (availableCapacity < students.length) {
+                return { error: `Classroom has only ${availableCapacity} available slots, but ${students.length} students provided` };
             }
 
-            if (email) {
-                const existingStudent = await StudentModel.findOne({ email });
-                if (existingStudent) {
-                    return { error: 'Email already registered' };
+            const enrolledStudents = [];
+            const errors = [];
+
+            for (let i = 0; i < students.length; i++) {
+                const studentData = students[i];
+                
+                if (studentData.email) {
+                    const existingStudent = await StudentModel.findOne({ email: studentData.email });
+                    if (existingStudent) {
+                        errors.push({ index: i, email: studentData.email, error: 'Email already registered' });
+                        continue;
+                    }
                 }
+
+                const age = Math.floor((Date.now() - new Date(studentData.dateOfBirth)) / (365.25 * 24 * 60 * 60 * 1000));
+                if (age < classroom.minAge || age > classroom.maxAge) {
+                    errors.push({ index: i, error: `Student age must be between ${classroom.minAge} and ${classroom.maxAge} years for this classroom` });
+                    continue;
+                }
+
+                const student = new StudentModel({
+                    schoolId,
+                    classroomId,
+                    firstName: studentData.firstName,
+                    lastName: studentData.lastName,
+                    dateOfBirth: studentData.dateOfBirth,
+                    gender: studentData.gender,
+                    email: studentData.email,
+                    phone: studentData.phone,
+                    address: studentData.address,
+                    guardianName: studentData.guardianName,
+                    guardianPhone: studentData.guardianPhone
+                });
+
+                await student.save();
+                enrolledStudents.push(student);
             }
 
-            const age = Math.floor((Date.now() - new Date(dateOfBirth)) / (365.25 * 24 * 60 * 60 * 1000));
-            if (age < 3 || age > 25) {
-                return { error: 'Invalid age for student enrollment' };
+            if (enrolledStudents.length > 0) {
+                await ClassroomModel.findByIdAndUpdate(classroomId, { $inc: { currentEnrollment: enrolledStudents.length } });
             }
 
-            const student = new StudentModel({
-                schoolId,
-                classroomId,
-                firstName,
-                lastName,
-                dateOfBirth,
-                gender,
-                email,
-                phone,
-                address,
-                guardianName,
-                guardianPhone
-            });
-
-            await student.save();
-            await ClassroomModel.findByIdAndUpdate(classroomId, { $inc: { currentEnrollment: 1 } });
-
-            return { student };
+            return { 
+                students: enrolledStudents,
+                enrolled: enrolledStudents.length,
+                failed: errors.length,
+                errors: errors.length > 0 ? errors : undefined
+            };
         } catch (err) {
-            return { error: 'Failed to enroll student' };
+            return { error: 'Failed to enroll students' };
         }
     }
 
@@ -114,9 +133,12 @@ module.exports = class Student {
             }
 
             if (dateOfBirth) {
-                const age = Math.floor((Date.now() - new Date(dateOfBirth)) / (365.25 * 24 * 60 * 60 * 1000));
-                if (age < 3 || age > 25) {
-                    return { error: 'Invalid age for student' };
+                const classroom = await ClassroomModel.findOne({ _id: student.classroomId, deletedAt: null });
+                if (classroom) {
+                    const age = Math.floor((Date.now() - new Date(dateOfBirth)) / (365.25 * 24 * 60 * 60 * 1000));
+                    if (age < classroom.minAge || age > classroom.maxAge) {
+                        return { error: `Student age must be between ${classroom.minAge} and ${classroom.maxAge} years for this classroom` };
+                    }
                 }
             }
 
@@ -178,6 +200,11 @@ module.exports = class Student {
 
             if (toClassroom.currentEnrollment >= toClassroom.capacity) {
                 return { error: 'Target classroom is at full capacity' };
+            }
+
+            const studentAge = Math.floor((Date.now() - new Date(student.dateOfBirth)) / (365.25 * 24 * 60 * 60 * 1000));
+            if (studentAge < toClassroom.minAge || studentAge > toClassroom.maxAge) {
+                return { error: `Student age must be between ${toClassroom.minAge} and ${toClassroom.maxAge} years for target classroom` };
             }
 
             const fromSchoolId = student.schoolId;

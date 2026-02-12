@@ -4,15 +4,19 @@ const validators = {
     enroll: Joi.object({
         schoolId: Joi.string().required(),
         classroomId: Joi.string().required(),
-        firstName: Joi.string().min(2).required(),
-        lastName: Joi.string().min(2).required(),
-        dateOfBirth: Joi.date().max('now').required(),
-        gender: Joi.string().valid('male', 'female').required(),
-        email: Joi.string().email().allow(''),
-        phone: Joi.string().pattern(/^[0-9+\-\s()]+$/).allow(''),
-        address: Joi.string().allow(''),
-        guardianName: Joi.string().min(2).required(),
-        guardianPhone: Joi.string().pattern(/^[0-9+\-\s()]+$/).required()
+        students: Joi.array().items(
+            Joi.object({
+                firstName: Joi.string().min(2).required(),
+                lastName: Joi.string().min(2).required(),
+                dateOfBirth: Joi.date().max('now').required(),
+                gender: Joi.string().valid('male', 'female').required(),
+                email: Joi.string().email().allow(''),
+                phone: Joi.string().pattern(/^[0-9+\-\s()]+$/).allow(''),
+                address: Joi.string().allow(''),
+                guardianName: Joi.string().min(2).required(),
+                guardianPhone: Joi.string().pattern(/^[0-9+\-\s()]+$/).required()
+            })
+        ).min(1).max(50).required()
     }),
 
     update: Joi.object({
