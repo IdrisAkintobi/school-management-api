@@ -1,0 +1,66 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: school-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: school-management
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/school-management --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: school-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: school-api
+    restart: unless-stopped
+    ports:
+      - "5111:5111"
+    environment:
+      SERVICE_NAME: school-management-api
+      ENV: production
+      USER_PORT: 5111
+      MONGO_URI: mongodb://mongodb:27017/school-management
+      REDIS_URI: redis://redis:6379
+      CORTEX_REDIS: redis://redis:6379
+      CORTEX_PREFIX: sms
+      CORTEX_TYPE: school-management-api
+      OYSTER_REDIS: redis://redis:6379
+      OYSTER_PREFIX: sms
+      CACHE_REDIS: redis://redis:6379
+      CACHE_PREFIX: sms:cache
+      LONG_TOKEN_SECRET: ${LONG_TOKEN_SECRET}
+      SHORT_TOKEN_SECRET: ${SHORT_TOKEN_SECRET}
+      LONG_TOKEN_EXPIRES_IN: ${LONG_TOKEN_EXPIRES_IN:-7d}
+      SHORT_TOKEN_EXPIRES_IN: ${SHORT_TOKEN_EXPIRES_IN:-24h}
+      NACL_SECRET: ${NACL_SECRET}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+
+volumes:
+  mongodb_data:
+  redis_data:

@@ -1,6 +1,9 @@
 const http              = require('http');
 const express           = require('express');
 const cors              = require('cors');
+const helmet            = require('helmet');
+const mongoSanitize     = require('express-mongo-sanitize');
+const rateLimit         = require('express-rate-limit');
 const app               = express();
 
 module.exports = class UserServer {
@@ -9,25 +12,41 @@ module.exports = class UserServer {
         this.userApi       = managers.userApi;
     }
     
-    /** for injecting middlewares */
     use(args){
         app.use(args);
     }
 
-    /** server configs */
     run(){
+        app.use(helmet());
         app.use(cors({origin: '*'}));
-        app.use(express.json());
-        app.use(express.urlencoded({ extended: true}));
+        app.use(express.json({ limit: '10mb' }));
+        app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+        app.use(mongoSanitize());
         app.use('/static', express.static('public'));
 
-        /** an error handler */
+        const limiter = rateLimit({
+            windowMs: 15 * 60 * 1000,
+            max: 100,
+            message: 'Too many requests from this IP, please try again later'
+        });
+
+        const authLimiter = rateLimit({
+            windowMs: 15 * 60 * 1000,
+            max: 5,
+            message: 'Too many authentication attempts, please try again later'
+        });
+
+        // Register rate limiters
+        app.use('/api/', limiter);
+        app.use('/api/admin/login', authLimiter);
+        app.use('/api/admin/register', authLimiter);
+
         app.use((err, req, res, next) => {
             console.error(err.stack)
             res.status(500).send('Something broke!')
         });
         
-        /** a single middleware to handle all */
+        /** Register route handlers */
         app.all('/api/:moduleName/:fnName', this.userApi.mw);
 
         let server = http.createServer(app);
