@@ -30,6 +30,18 @@ const classroomSchema = new mongoose.Schema({
         default: 0,
         min: 0
     },
+    minAge: {
+        type: Number,
+        default: 3,
+        min: 1,
+        max: 85
+    },
+    maxAge: {
+        type: Number,
+        default: 25,
+        min: 1,
+        max: 85
+    },
     resources: [{
         type: String
     }],
@@ -48,11 +60,12 @@ const classroomSchema = new mongoose.Schema({
             ret.id = ret._id;
             delete ret._id;
             delete ret.__v;
+            delete ret.deletedAt;
             return ret;
         }
     }
 });
 
-classroomSchema.index({ schoolId: 1, name: 1 });
+classroomSchema.index({ schoolId: 1, name: 1, grade: 1, section: 1 }, { unique: true });
 
 module.exports = mongoose.model('Classroom', classroomSchema);

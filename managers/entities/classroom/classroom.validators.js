@@ -7,7 +7,14 @@ const validators = {
         grade: Joi.string().allow(''),
         section: Joi.string().allow(''),
         capacity: Joi.number().integer().min(1).required(),
+        minAge: Joi.number().integer().min(1).max(85).default(3),
+        maxAge: Joi.number().integer().min(1).max(85).default(25),
         resources: Joi.array().items(Joi.string())
+    }).custom((value, helpers) => {
+        if (value.minAge && value.maxAge && value.minAge > value.maxAge) {
+            return helpers.error('any.invalid', { message: 'minAge cannot be greater than maxAge' });
+        }
+        return value;
     }),
 
     update: Joi.object({
@@ -16,8 +23,15 @@ const validators = {
         grade: Joi.string().allow(''),
         section: Joi.string().allow(''),
         capacity: Joi.number().integer().min(1),
+        minAge: Joi.number().integer().min(1).max(85),
+        maxAge: Joi.number().integer().min(1).max(85),
         resources: Joi.array().items(Joi.string()),
         isActive: Joi.boolean()
+    }).custom((value, helpers) => {
+        if (value.minAge && value.maxAge && value.minAge > value.maxAge) {
+            return helpers.error('any.invalid', { message: 'minAge cannot be greater than maxAge' });
+        }
+        return value;
     }),
 
     getById: Joi.object({

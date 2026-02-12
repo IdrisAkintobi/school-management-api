@@ -21,10 +21,10 @@ module.exports = class Classroom {
             ];
         }
 
-    async create({ schoolId, name, grade, section, capacity, resources, __schoolAdmin }) {
+    async create({ schoolId, name, grade, section, capacity, minAge, maxAge, resources, __schoolAdmin }) {
         try {
             const { error } = this.validators.create.validate({
-                schoolId, name, grade, section, capacity, resources
+                schoolId, name, grade, section, capacity, minAge, maxAge, resources
             });
             if (error) return { error: error.details[0].message };
 
@@ -47,6 +47,8 @@ module.exports = class Classroom {
                 grade,
                 section,
                 capacity,
+                minAge: minAge || 3,
+                maxAge: maxAge || 25,
                 resources: resources || []
             });
 
@@ -54,14 +56,17 @@ module.exports = class Classroom {
 
             return { classroom };
         } catch (err) {
+            if (err.code === 11000) {
+                return { error: 'Classroom with this name, grade, and section already exists in this school' };
+            }
             return { error: 'Failed to create classroom' };
         }
     }
 
-    async update({ classroomId, name, grade, section, capacity, resources, isActive, __schoolAdmin }) {
+    async update({ classroomId, name, grade, section, capacity, minAge, maxAge, resources, isActive, __schoolAdmin }) {
         try {
             const { error } = this.validators.update.validate({
-                classroomId, name, grade, section, capacity, resources, isActive
+                classroomId, name, grade, section, capacity, minAge, maxAge, resources, isActive
             });
             if (error) return { error: error.details[0].message };
 
@@ -87,6 +92,8 @@ module.exports = class Classroom {
             if (grade !== undefined) updateData.grade = grade;
             if (section !== undefined) updateData.section = section;
             if (capacity !== undefined) updateData.capacity = capacity;
+            if (minAge !== undefined) updateData.minAge = minAge;
+            if (maxAge !== undefined) updateData.maxAge = maxAge;
             if (resources !== undefined) updateData.resources = resources;
             if (isActive !== undefined) updateData.isActive = isActive;
 
