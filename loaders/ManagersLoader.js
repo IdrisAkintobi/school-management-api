@@ -14,6 +14,7 @@ const SharkFin              = require('../managers/shark_fin/SharkFin.manager');
 const TimeMachine           = require('../managers/time_machine/TimeMachine.manager');
 
 const AdminManager          = require('../managers/entities/admin/Admin.manager');
+const SchoolManager         = require('../managers/entities/school/School.manager');
 
 /** 
  * load sharable modules
