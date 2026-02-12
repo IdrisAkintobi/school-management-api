@@ -33,6 +33,10 @@ const validators = {
 
     delete: Joi.object({
         schoolId: Joi.string().required()
+    }),
+
+    restore: Joi.object({
+        schoolId: Joi.string().required()
     })
 };
 

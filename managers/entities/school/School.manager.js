@@ -14,6 +14,7 @@ module.exports = class School {
         this.httpExposed = [
             'post=create',
             'patch=update',
+            'patch=restore',
             'get=list',
             'get=getById',
             'delete=delete'
@@ -69,6 +70,11 @@ module.exports = class School {
                 return { error: 'Invalid school ID' };
             }
 
+            const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
+            if (!school) {
+                return { error: 'School not found' };
+            }
+
             const updateData = {};
             if (name !== undefined) updateData.name = name;
             if (address !== undefined) updateData.address = address;
@@ -78,17 +84,13 @@ module.exports = class School {
             if (establishedYear !== undefined) updateData.establishedYear = establishedYear;
             if (isActive !== undefined) updateData.isActive = isActive;
 
-            const school = await SchoolModel.findByIdAndUpdate(
+            const updatedSchool = await SchoolModel.findByIdAndUpdate(
                 schoolId,
                 updateData,
                 { new: true, runValidators: true }
             );
 
-            if (!school) {
-                return { error: 'School not found' };
-            }
-
-            return { school };
+            return { school: updatedSchool };
         } catch (err) {
             return { error: 'Failed to update school' };
         }
@@ -185,6 +187,48 @@ module.exports = class School {
             return { message: 'School deleted successfully', school };
         } catch (err) {
             return { error: 'Failed to delete school' };
+        }
+    }
+
+    async restore({ schoolId, __superadmin }) {
+        try {
+            if (!schoolId) {
+                return { error: 'School ID is required' };
+            }
+
+            if (!mongoose.Types.ObjectId.isValid(schoolId)) {
+                return { error: 'Invalid school ID' };
+            }
+
+            const school = await SchoolModel.findOne({ _id: schoolId });
+            if (!school) {
+                return { error: 'School not found' };
+            }
+
+            if (!school.deletedAt) {
+                return { error: 'School is not deleted' };
+            }
+
+            const existingActiveSchool = await SchoolModel.findOne({
+                name: school.name,
+                address: school.address,
+                deletedAt: null,
+                _id: { $ne: schoolId }
+            });
+
+            if (existingActiveSchool) {
+                return { error: 'Cannot restore: A school with this name and address already exists' };
+            }
+
+            const restoredSchool = await SchoolModel.findByIdAndUpdate(
+                schoolId,
+                { deletedAt: null },
+                { new: true }
+            );
+
+            return { school: restoredSchool, message: 'School restored successfully' };
+        } catch (err) {
+            return { error: 'Failed to restore school' };
         }
     }
 };

@@ -18,14 +18,10 @@ module.exports = class Admin {
         ];
     }
 
-    async register({ email, password, name, role, schoolId, __auth }) {
+    async register({ email, password, name, role, schoolId, __superadmin }) {
         try {
             const { error } = this.validators.register.validate({ email, password, name, role, schoolId });
             if (error) return { error: error.details[0].message };
-
-            if (__auth && __auth.role !== 'superadmin') {
-                return { error: 'Only superadmin can register new admins' };
-            }
 
             if (role === 'school_admin' && !mongoose.Types.ObjectId.isValid(schoolId)) {
                 return { error: 'Invalid school ID' };
@@ -104,12 +100,8 @@ module.exports = class Admin {
         }
     }
 
-    async list({ page = 1, limit = 10, __auth }) {
+    async list({ page = 1, limit = 10, __superadmin }) {
         try {
-            if (__auth.role !== 'superadmin') {
-                return { error: 'Unauthorized access' };
-            }
-
             page = parseInt(page) || 1;
             limit = parseInt(limit) || 10;
 
