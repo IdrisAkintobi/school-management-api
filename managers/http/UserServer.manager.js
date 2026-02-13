@@ -17,6 +17,7 @@ module.exports = class UserServer {
     }
 
     run(){
+        app.set('trust proxy', 1);
         app.use(helmet());
         app.use(cors({origin: '*'}));
         app.use(express.json({ limit: '10mb' }));

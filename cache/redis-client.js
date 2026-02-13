@@ -11,7 +11,7 @@ const runTest = async (redis, prefix) => {
 
 const createClient = ({ prefix, url }) => {
 
-  console.log({ prefix, url })
+  console.log(`Redis client connecting with prefix: ${prefix}`);
 
   const redis = new Redis(url,{
     keyPrefix: prefix+":"
