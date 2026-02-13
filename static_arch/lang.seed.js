@@ -12,5 +12,5 @@ module.exports = [
             ar: 'صحة',
             en: 'Health'
         }
-    },
-]
+    }
+];

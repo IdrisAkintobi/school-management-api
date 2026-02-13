@@ -1,36 +1,26 @@
-
-const Redis = require("ioredis");
-
-const runTest = async (redis, prefix) => {
-  const key = `${prefix}:test:${new Date().getTime()}`;
-  await redis.set(key, "Redis Test Done.");
-  let data = await redis.get(key);
-  console.log(`Cache Test Data: ${data}`);
-  redis.del(key);
-}
+const Redis = require('ioredis');
 
 const createClient = ({ prefix, url }) => {
+    const redis = new Redis(url, {
+        keyPrefix: prefix + ':',
+        lazyConnect: false,
+        showFriendlyErrorStack: process.env.NODE_ENV !== 'production'
+    });
 
-  console.log({ prefix, url })
+    //register client events
+    redis.on('error', error => {
+        console.error(`Redis error [${prefix}]:`, error.message);
+    });
 
-  const redis = new Redis(url,{
-    keyPrefix: prefix+":"
-  });
+    redis.on('end', () => {
+        console.error(`Redis connection closed [${prefix}]`);
+    });
 
-  //register client events
-  redis.on('error', (error) => {
-    console.log('error', error);
-  });
+    redis.on('connect', () => {
+        console.log(`Redis connected [${prefix}]`);
+    });
 
-  redis.on('end', () => {
-    console.log('shutting down service due to lost Redis connection');
-  });
-
-  runTest(redis, prefix);
-
-  return redis;
-}
-
-
+    return redis;
+};
 
 exports.createClient = createClient;

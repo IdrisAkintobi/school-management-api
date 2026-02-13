@@ -92,3 +92,14 @@ sw.*
 # vscode
 .vscode/
 
+
+# Docker volumes
+mongodb_data/
+redis_data/
+
+# Backup files
+backup/
+*.rdb
+
+# Test files
+test-results/

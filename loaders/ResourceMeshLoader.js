@@ -1,18 +1,13 @@
 const loader = require('./_common/fileLoader');
 
-module.exports = class ResourceMeshLoader { 
-
-    constructor(injectable){
-        this.nodes = {};
+module.exports = class ResourceMeshLoader {
+    constructor(injectable) {
         this.injectable = injectable;
     }
 
-    load(){
-        const nodes = loader('./mws/**/*.rnode.js');
-
-        /** validate nodes */
+    load() {
+        loader('./mws/**/*.rnode.js');
 
         return this.nodes;
     }
-   
-}
+};
