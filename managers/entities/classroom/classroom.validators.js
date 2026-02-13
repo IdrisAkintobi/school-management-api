@@ -49,7 +49,7 @@ const validators = {
 
     list: Joi.object({
         schoolId: Joi.string(),
-        page: Joi.number().integer().min(1).default(1),
+        page: Joi.number().integer().min(1).max(1000).default(1),
         limit: Joi.number().integer().min(1).max(100).default(10),
         isActive: Joi.boolean()
     }),
