@@ -6,6 +6,7 @@ const ResponseDispatcher    = require('../managers/response_dispatcher/ResponseD
 const VirtualStack          = require('../managers/virtual_stack/VirtualStack.manager');
 const ValidatorsLoader      = require('./ValidatorsLoader');
 const ResourceMeshLoader    = require('./ResourceMeshLoader');
+const MongoLoader           = require('./MongoLoader');
 const utils                 = require('../libs/utils');
 const logger                = require('../libs/logger');
 
@@ -42,7 +43,7 @@ module.exports = class ManagersLoader {
             aeon,
             managers: this.managers, 
             validators: this.validators,
-            // mongomodels: this.mongomodels,
+            mongoModels: this.mongoModels,
             resourceNodes: this.resourceNodes,
         };
         
@@ -53,13 +54,12 @@ module.exports = class ManagersLoader {
             models: require('../managers/_common/schema.models'),
             customValidators: require('../managers/_common/schema.validators'),
         });
-        const resourceMeshLoader  = new ResourceMeshLoader({})
-        // const mongoLoader      = new MongoLoader({ schemaExtension: "mongoModel.js" });
+        const resourceMeshLoader  = new ResourceMeshLoader({});
+        const mongoLoader         = new MongoLoader({ schemaExtension: "schema.js" });
 
         this.validators           = validatorsLoader.load();
         this.resourceNodes        = resourceMeshLoader.load();
-        // this.mongomodels          = mongoLoader.load();
-
+        this.mongoModels          = mongoLoader.load();
     }
 
     load() {

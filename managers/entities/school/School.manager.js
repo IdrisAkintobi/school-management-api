@@ -1,16 +1,18 @@
-const SchoolModel = require('./school.schema');
-const ClassroomModel = require('../classroom/classroom.schema');
-const StudentModel = require('../student/student.schema');
 const validators = require('./school.validators');
 const mongoose = require('mongoose');
 
 module.exports = class School {
-    constructor({ utils, cache, config, cortex, managers, logger } = {}) {
+    constructor({ utils, cache, config, cortex, managers, logger, mongoModels } = {}) {
         this.config = config;
         this.cortex = cortex;
         this.cache = cache;
         this.logger = logger;
         this.validators = validators;
+
+        // Injected models
+        this.StudentModel = mongoModels.student;
+        this.ClassroomModel = mongoModels.classroom;
+        this.SchoolModel = mongoModels.school;
         
         this.httpExposed = [
             'post=create',
@@ -29,7 +31,7 @@ module.exports = class School {
             });
             if (error) return { error: error.details[0].message };
 
-            const existingSchool = await SchoolModel.findOne({ 
+            const existingSchool = await this.SchoolModel.findOne({ 
                 name, 
                 address,
                 deletedAt: null
@@ -39,7 +41,7 @@ module.exports = class School {
                 return { error: 'School with this name and address already exists' };
             }
 
-            const school = new SchoolModel({
+            const school = new this.SchoolModel({
                 name,
                 address,
                 phone,
@@ -74,7 +76,7 @@ module.exports = class School {
                 return { error: 'Invalid school ID' };
             }
 
-            const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
+            const school = await this.SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
                 return { error: 'School not found', code: 404 };
             }
@@ -88,7 +90,7 @@ module.exports = class School {
             if (establishedYear !== undefined) updateData.establishedYear = establishedYear;
             if (isActive !== undefined) updateData.isActive = isActive;
 
-            const updatedSchool = await SchoolModel.findByIdAndUpdate(
+            const updatedSchool = await this.SchoolModel.findByIdAndUpdate(
                 schoolId,
                 updateData,
                 { new: true, runValidators: true }
@@ -114,12 +116,12 @@ module.exports = class School {
             query.deletedAt = null;
 
             const skip = (page - 1) * limit;
-            const schools = await SchoolModel.find(query)
+            const schools = await this.SchoolModel.find(query)
                 .skip(skip)
                 .limit(limit)
                 .sort({ createdAt: -1 });
 
-            const total = await SchoolModel.countDocuments(query);
+            const total = await this.SchoolModel.countDocuments(query);
 
             return {
                 schools,
@@ -144,7 +146,7 @@ module.exports = class School {
                 return { error: 'Invalid school ID' };
             }
 
-            const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
+            const school = await this.SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
                 return { error: 'School not found', code: 404 };
             }
@@ -168,22 +170,22 @@ module.exports = class School {
                 return { error: 'Invalid school ID' };
             }
 
-            const classroomCount = await ClassroomModel.countDocuments({ schoolId, deletedAt: null });
+            const classroomCount = await this.ClassroomModel.countDocuments({ schoolId, deletedAt: null });
             if (classroomCount > 0) {
                 return { error: 'Cannot delete school with active classrooms' };
             }
 
-            const studentCount = await StudentModel.countDocuments({ schoolId, deletedAt: null });
+            const studentCount = await this.StudentModel.countDocuments({ schoolId, deletedAt: null });
             if (studentCount > 0) {
                 return { error: 'Cannot delete school with active students' };
             }
 
-            const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
+            const school = await this.SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
                 return { error: 'School not found', code: 404 };
             }
 
-            await SchoolModel.findByIdAndUpdate(
+            await this.SchoolModel.findByIdAndUpdate(
                 schoolId,
                 { deletedAt: new Date() },
                 { new: true }
@@ -206,7 +208,7 @@ module.exports = class School {
                 return { error: 'Invalid school ID' };
             }
 
-            const school = await SchoolModel.findOne({ _id: schoolId });
+            const school = await this.SchoolModel.findOne({ _id: schoolId });
             if (!school) {
                 return { error: 'School not found', code: 404 };
             }
@@ -215,7 +217,7 @@ module.exports = class School {
                 return { error: 'School is not deleted' };
             }
 
-            const existingActiveSchool = await SchoolModel.findOne({
+            const existingActiveSchool = await this.SchoolModel.findOne({
                 name: school.name,
                 address: school.address,
                 deletedAt: null,
@@ -226,7 +228,7 @@ module.exports = class School {
                 return { error: 'Cannot restore: A school with this name and address already exists' };
             }
 
-            const restoredSchool = await SchoolModel.findByIdAndUpdate(
+            const restoredSchool = await this.SchoolModel.findByIdAndUpdate(
                 schoolId,
                 { deletedAt: null },
                 { new: true }

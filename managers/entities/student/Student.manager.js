@@ -1,16 +1,18 @@
-const StudentModel = require('./student.schema');
-const ClassroomModel = require('../classroom/classroom.schema');
-const SchoolModel = require('../school/school.schema');
 const validators = require('./student.validators');
 const mongoose = require('mongoose');
 
 module.exports = class Student {
-    constructor({ utils, cache, config, cortex, managers, logger} = {}) {
+    constructor({ utils, cache, config, cortex, managers, logger, mongoModels } = {}) {
             this.config = config;
             this.cortex = cortex;
             this.cache = cache;
             this.logger = logger;
             this.validators = validators;
+            
+            // Injected models
+            this.StudentModel = mongoModels.student;
+            this.ClassroomModel = mongoModels.classroom;
+            this.SchoolModel = mongoModels.school;
 
             this.httpExposed = [
                 'post=enroll',
@@ -38,12 +40,12 @@ module.exports = class Student {
                 return { error: 'Unauthorized: Cannot enroll student in another school' };
             }
 
-            const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
+            const school = await this.SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
                 return { error: 'School not found or inactive', code: 404 };
             }
 
-            const classroom = await ClassroomModel.findOne({ _id: classroomId, schoolId, deletedAt: null });
+            const classroom = await this.ClassroomModel.findOne({ _id: classroomId, schoolId, deletedAt: null });
             if (!classroom) {
                 return { error: 'Classroom not found or inactive', code: 404 };
             }
@@ -60,7 +62,7 @@ module.exports = class Student {
                 const studentData = students[i];
                 
                 if (studentData.email) {
-                    const existingStudent = await StudentModel.findOne({ email: studentData.email });
+                    const existingStudent = await this.StudentModel.findOne({ email: studentData.email });
                     if (existingStudent) {
                         errors.push({ index: i, email: studentData.email, error: 'Email already registered' });
                         continue;
@@ -73,7 +75,7 @@ module.exports = class Student {
                     continue;
                 }
 
-                const student = new StudentModel({
+                const student = new this.StudentModel({
                     schoolId,
                     classroomId,
                     firstName: studentData.firstName,
@@ -92,7 +94,7 @@ module.exports = class Student {
             }
 
             if (enrolledStudents.length > 0) {
-                await ClassroomModel.findByIdAndUpdate(classroomId, { $inc: { currentEnrollment: enrolledStudents.length } });
+                await this.ClassroomModel.findByIdAndUpdate(classroomId, { $inc: { currentEnrollment: enrolledStudents.length } });
             }
 
             this.logger.info({ 
@@ -125,7 +127,7 @@ module.exports = class Student {
                 return { error: 'Invalid student ID' };
             }
 
-            const student = await StudentModel.findOne({ _id: studentId, deletedAt: null });
+            const student = await this.StudentModel.findOne({ _id: studentId, deletedAt: null });
             if (!student) {
                 return { error: 'Student not found', code: 404 };
             }
@@ -135,14 +137,14 @@ module.exports = class Student {
             }
 
             if (email && email !== student.email) {
-                const existingStudent = await StudentModel.findOne({ email });
+                const existingStudent = await this.StudentModel.findOne({ email });
                 if (existingStudent) {
                     return { error: 'Email already registered' };
                 }
             }
 
             if (dateOfBirth) {
-                const classroom = await ClassroomModel.findOne({ _id: student.classroomId, deletedAt: null });
+                const classroom = await this.ClassroomModel.findOne({ _id: student.classroomId, deletedAt: null });
                 if (classroom) {
                     const age = Math.floor((Date.now() - new Date(dateOfBirth)) / (365.25 * 24 * 60 * 60 * 1000));
                     if (age < classroom.minAge || age > classroom.maxAge) {
@@ -163,7 +165,7 @@ module.exports = class Student {
             if (guardianPhone !== undefined) updateData.guardianPhone = guardianPhone;
             if (isActive !== undefined) updateData.isActive = isActive;
 
-            const updatedStudent = await StudentModel.findByIdAndUpdate(
+            const updatedStudent = await this.StudentModel.findByIdAndUpdate(
                 studentId,
                 updateData,
                 { new: true, runValidators: true }
@@ -185,7 +187,7 @@ module.exports = class Student {
                 return { error: 'Invalid student, school, or classroom ID' };
             }
 
-            const student = await StudentModel.findOne({ _id: studentId, deletedAt: null });
+            const student = await this.StudentModel.findOne({ _id: studentId, deletedAt: null });
             if (!student) {
                 return { error: 'Student not found' };
             }
@@ -198,12 +200,12 @@ module.exports = class Student {
                 return { error: 'Student is already in this classroom' };
             }
 
-            const toSchool = await SchoolModel.findOne({ _id: toSchoolId, deletedAt: null });
+            const toSchool = await this.SchoolModel.findOne({ _id: toSchoolId, deletedAt: null });
             if (!toSchool) {
                 return { error: 'Target school not found or inactive', code: 404 };
             }
 
-            const toClassroom = await ClassroomModel.findOne({ _id: toClassroomId, schoolId: toSchoolId, deletedAt: null });
+            const toClassroom = await this.ClassroomModel.findOne({ _id: toClassroomId, schoolId: toSchoolId, deletedAt: null });
             if (!toClassroom) {
                 return { error: 'Target classroom not found or inactive', code: 404 };
             }
@@ -231,6 +233,8 @@ module.exports = class Student {
             student.classroomId = toClassroomId;
 
             await student.save();
+            await this.ClassroomModel.findByIdAndUpdate(fromClassroomId, { $inc: { currentEnrollment: -1 } });
+            await this.ClassroomModel.findByIdAndUpdate(toClassroomId, { $inc: { currentEnrollment: 1 } });
 
             this.logger.info({ 
                 studentId, 
@@ -278,14 +282,14 @@ module.exports = class Student {
             query.deletedAt = null;
 
             const skip = (page - 1) * limit;
-            const students = await StudentModel.find(query)
+            const students = await this.StudentModel.find(query)
                 .populate('schoolId', 'name')
                 .populate('classroomId', 'name grade section')
                 .skip(skip)
                 .limit(limit)
                 .sort({ createdAt: -1 });
 
-            const total = await StudentModel.countDocuments(query);
+            const total = await this.StudentModel.countDocuments(query);
 
             return {
                 students,
@@ -310,7 +314,7 @@ module.exports = class Student {
                 return { error: 'Invalid student ID' };
             }
 
-            const student = await StudentModel.findOne({ _id: studentId, deletedAt: null })
+            const student = await this.StudentModel.findOne({ _id: studentId, deletedAt: null })
                 .populate('schoolId', 'name')
                 .populate('classroomId', 'name grade section');
 
@@ -337,7 +341,7 @@ module.exports = class Student {
                 return { error: 'Invalid student ID' };
             }
 
-            const student = await StudentModel.findOne({ _id: studentId, deletedAt: null });
+            const student = await this.StudentModel.findOne({ _id: studentId, deletedAt: null });
             if (!student) {
                 return { error: 'Student not found', code: 404 };
             }
@@ -346,6 +350,8 @@ module.exports = class Student {
                 return { error: 'Student not found', code: 404 };
             }
 
+            await this.StudentModel.findByIdAndUpdate(studentId, { deletedAt: new Date() });
+            await this.ClassroomModel.findByIdAndUpdate(student.classroomId, { $inc: { currentEnrollment: -1 } });
 
             this.logger.info({ studentId, classroomId: student.classroomId }, 'Student deleted successfully');
 
@@ -365,7 +371,7 @@ module.exports = class Student {
                 return { error: 'Invalid student ID' };
             }
 
-            const student = await StudentModel.findOne({ _id: studentId });
+            const student = await this.StudentModel.findOne({ _id: studentId });
             if (!student) {
                 return { error: 'Student not found', code: 404 };
             }
@@ -378,12 +384,12 @@ module.exports = class Student {
                 return { error: 'Student is not deleted' };
             }
 
-            const school = await SchoolModel.findOne({ _id: student.schoolId, deletedAt: null });
+            const school = await this.SchoolModel.findOne({ _id: student.schoolId, deletedAt: null });
             if (!school) {
                 return { error: 'Cannot restore: School is deleted or not found', code: 404 };
             }
 
-            const classroom = await ClassroomModel.findOne({ _id: student.classroomId, deletedAt: null });
+            const classroom = await this.ClassroomModel.findOne({ _id: student.classroomId, deletedAt: null });
             if (!classroom) {
                 return { error: 'Cannot restore: Classroom is deleted or not found', code: 404 };
             }
@@ -392,12 +398,13 @@ module.exports = class Student {
                 return { error: 'Cannot restore: Classroom is at full capacity' };
             }
 
-            const restoredStudent = await StudentModel.findByIdAndUpdate(
+            const restoredStudent = await this.StudentModel.findByIdAndUpdate(
                 studentId,
                 { deletedAt: null },
                 { new: true }
             );
 
+            await this.ClassroomModel.findByIdAndUpdate(student.classroomId, { $inc: { currentEnrollment: 1 } });
 
             this.logger.info({ studentId, classroomId: student.classroomId }, 'Student restored successfully');
 

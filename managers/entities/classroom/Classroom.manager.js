@@ -1,17 +1,18 @@
-const ClassroomModel = require('./classroom.schema');
-const SchoolModel = require('../school/school.schema');
-const StudentModel = require('../student/student.schema');
 const validators = require('./classroom.validators');
 const mongoose = require('mongoose');
-const logger = require('../../libs/logger');
 
 module.exports = class Classroom {
-    constructor({ utils, cache, config, cortex, logger } = {}) {
+    constructor({ utils, cache, config, cortex, logger, mongoModels } = {}) {
             this.config = config;
             this.cortex = cortex;
             this.cache = cache;
             this.logger = logger;
             this.validators = validators;
+
+            // Injected models
+            this.StudentModel = mongoModels.student;
+            this.ClassroomModel = mongoModels.classroom;
+            this.SchoolModel = mongoModels.school;
 
             this.httpExposed = [
                 'post=create',
@@ -38,12 +39,12 @@ module.exports = class Classroom {
                 return { error: 'Unauthorized: Cannot create classroom for another school' };
             }
 
-            const school = await SchoolModel.findOne({ _id: schoolId, deletedAt: null });
+            const school = await this.SchoolModel.findOne({ _id: schoolId, deletedAt: null });
             if (!school) {
                 return { error: 'School not found or inactive', code: 404 };
             }
 
-            const classroom = new ClassroomModel({
+            const classroom = new this.ClassroomModel({
                 schoolId,
                 name,
                 grade,
@@ -79,7 +80,7 @@ module.exports = class Classroom {
                 return { error: 'Invalid classroom ID' };
             }
 
-            const classroom = await ClassroomModel.findOne({ _id: classroomId, deletedAt: null });
+            const classroom = await this.ClassroomModel.findOne({ _id: classroomId, deletedAt: null });
             if (!classroom) {
                 return { error: 'Classroom not found', code: 404 };
             }
@@ -102,7 +103,7 @@ module.exports = class Classroom {
             if (resources !== undefined) updateData.resources = resources;
             if (isActive !== undefined) updateData.isActive = isActive;
 
-            const updatedClassroom = await ClassroomModel.findByIdAndUpdate(
+            const updatedClassroom = await this.ClassroomModel.findByIdAndUpdate(
                 classroomId,
                 updateData,
                 { new: true, runValidators: true }
@@ -140,13 +141,13 @@ module.exports = class Classroom {
             query.deletedAt = null;
 
             const skip = (page - 1) * limit;
-            const classrooms = await ClassroomModel.find(query)
+            const classrooms = await this.ClassroomModel.find(query)
                 .populate('schoolId', 'name')
                 .skip(skip)
                 .limit(limit)
                 .sort({ createdAt: -1 });
 
-            const total = await ClassroomModel.countDocuments(query);
+            const total = await this.ClassroomModel.countDocuments(query);
 
             return {
                 classrooms,
@@ -171,7 +172,7 @@ module.exports = class Classroom {
                 return { error: 'Invalid classroom ID' };
             }
 
-            const classroom = await ClassroomModel.findOne({ _id: classroomId, deletedAt: null }).populate('schoolId', 'name');
+            const classroom = await this.ClassroomModel.findOne({ _id: classroomId, deletedAt: null }).populate('schoolId', 'name');
             if (!classroom) {
                 return { error: 'Classroom not found', code: 404 };
             }
@@ -195,7 +196,7 @@ module.exports = class Classroom {
                 return { error: 'Invalid classroom ID' };
             }
 
-            const classroom = await ClassroomModel.findOne({ _id: classroomId, deletedAt: null });
+            const classroom = await this.ClassroomModel.findOne({ _id: classroomId, deletedAt: null });
             if (!classroom) {
                 return { error: 'Classroom not found', code: 404 };
             }
@@ -204,12 +205,12 @@ module.exports = class Classroom {
                 return { error: 'Classroom not found', code: 404 };
             }
 
-            const studentCount = await StudentModel.countDocuments({ classroomId, deletedAt: null });
+            const studentCount = await this.StudentModel.countDocuments({ classroomId, deletedAt: null });
             if (studentCount > 0) {
                 return { error: 'Cannot delete classroom with active students' };
             }
 
-            await ClassroomModel.findByIdAndUpdate(classroomId, { deletedAt: new Date() });
+            await this.ClassroomModel.findByIdAndUpdate(classroomId, { deletedAt: new Date() });
             this.logger.info({ classroomId, name: classroom.name }, 'Classroom deleted successfully');
 
             return { message: 'Classroom deleted successfully' };
@@ -228,7 +229,7 @@ module.exports = class Classroom {
                 return { error: 'Invalid classroom ID' };
             }
 
-            const classroom = await ClassroomModel.findOne({ _id: classroomId });
+            const classroom = await this.ClassroomModel.findOne({ _id: classroomId });
             if (!classroom) {
                 return { error: 'Classroom not found', code: 404 };
             }
@@ -241,12 +242,12 @@ module.exports = class Classroom {
                 return { error: 'Classroom is not deleted' };
             }
 
-            const school = await SchoolModel.findOne({ _id: classroom.schoolId, deletedAt: null });
+            const school = await this.SchoolModel.findOne({ _id: classroom.schoolId, deletedAt: null });
             if (!school) {
                 return { error: 'Cannot restore: School is deleted or not found', code: 404 };
             }
 
-            const restoredClassroom = await ClassroomModel.findByIdAndUpdate(
+            const restoredClassroom = await this.ClassroomModel.findByIdAndUpdate(
                 classroomId,
                 { deletedAt: null },
                 { new: true }

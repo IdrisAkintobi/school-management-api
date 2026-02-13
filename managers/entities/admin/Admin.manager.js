@@ -3,13 +3,16 @@ const validators = require('./admin.validators');
 const mongoose = require('mongoose');
 
 module.exports = class Admin {
-    constructor({ utils, cache, config, cortex, managers, logger } = {}) {
+    constructor({ utils, cache, config, cortex, managers, logger, mongoModels } = {}) {
         this.config = config;
         this.cortex = cortex;
         this.cache = cache;
         this.logger = logger;
         this.tokenManager = managers.token;
         this.validators = validators;
+
+        // Injected models
+        this.AdminModel = mongoModels.admin;
         
         this.httpExposed = [
             'post=register',
@@ -32,13 +35,13 @@ module.exports = class Admin {
                 return { error: 'Invalid school ID' };
             }
 
-            const existingAdmin = await AdminModel.findOne({ email });
+            const existingAdmin = await this.AdminModel.findOne({ email });
             if (existingAdmin) {
                 this.logger.warn({ email }, 'Attempted to register with existing email');
                 return { error: 'Email already registered' };
             }
 
-            const admin = new AdminModel({
+            const admin = new this.AdminModel({
                 email,
                 password,
                 name,
@@ -72,7 +75,7 @@ module.exports = class Admin {
                 return { error: error.details[0].message };
             }
 
-            const admin = await AdminModel.findOne({ email, deletedAt: null });
+            const admin = await this.AdminModel.findOne({ email, deletedAt: null });
             if (!admin) {
                 this.logger.warn({ email }, 'Login attempt with non-existent email');
                 return { error: 'Invalid credentials' };
@@ -122,14 +125,14 @@ module.exports = class Admin {
             limit = parseInt(limit) || 10;
 
             const skip = (page - 1) * limit;
-            const admins = await AdminModel.find({ deletedAt: null })
+            const admins = await this.AdminModel.find({ deletedAt: null })
                 .select('-password')
                 .skip(skip)
                 .limit(limit)
                 .sort({ createdAt: -1 })
                 .lean();
 
-            const total = await AdminModel.countDocuments({ deletedAt: null });
+            const total = await this.AdminModel.countDocuments({ deletedAt: null });
 
             this.logger.debug({ page, limit, total }, 'Admins list fetched');
 
@@ -171,7 +174,7 @@ module.exports = class Admin {
                 return { error: 'Unauthorized access' };
             }
 
-            const admin = await AdminModel.findOne({ _id: adminId, deletedAt: null }).select('-password').lean();
+            const admin = await this.AdminModel.findOne({ _id: adminId, deletedAt: null }).select('-password').lean();
             if (!admin) {
                 this.logger.debug({ adminId }, 'Admin not found');
                 return { error: 'Admin not found', code: 404 };
