@@ -11,7 +11,7 @@ const validators = {
         name: Joi.string().min(1).required(),
         grade: Joi.string().allow(''),
         section: Joi.string().allow(''),
-        capacity: Joi.number().integer().min(1).required(),
+        capacity: Joi.number().integer().min(1).max(500).required(),
         minAge: Joi.number().integer().min(1).max(85).default(3),
         maxAge: Joi.number().integer().min(1).max(85).default(25),
         resources: Joi.array().items(resourceSchema)
@@ -27,7 +27,7 @@ const validators = {
         name: Joi.string().min(1),
         grade: Joi.string().allow(''),
         section: Joi.string().allow(''),
-        capacity: Joi.number().integer().min(1),
+        capacity: Joi.number().integer().min(1).max(500),
         minAge: Joi.number().integer().min(1).max(85),
         maxAge: Joi.number().integer().min(1).max(85),
         resources: Joi.array().items(resourceSchema),

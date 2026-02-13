@@ -23,7 +23,8 @@ const classroomSchema = new mongoose.Schema({
     capacity: {
         type: Number,
         required: true,
-        min: 1
+        min: 1,
+        max: 500
     },
     currentEnrollment: {
         type: Number,
