@@ -1,0 +1,5224 @@
+{
+  "info": {
+    "_postman_id": "18481d05-356d-4f39-9ce6-45c6bb6f8a2c",
+    "name": "School Management System API",
+    "description": "Complete API collection for School Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30184316"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login Superadmin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('superadminToken', response.data.shortToken);",
+                  "    pm.collectionVariables.set('superadminLongToken', response.data.longToken);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"superadmin@system.com\",\n  \"password\": \"SecurePassword123#\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"superadmin@system.com\",\n  \"password\": \"SecurePassword123#\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "5"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "3"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 07:31:18 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770882290"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "745"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2e9-BOmzn24CGA1J2AM1S0MwrCQttNY\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"admin\": {\n            \"id\": \"698d81bdc1515dc4b9246bc9\",\n            \"email\": \"superadmin@system.com\",\n            \"name\": \"Super Admin\",\n            \"role\": \"superadmin\",\n            \"schoolId\": null\n        },\n        \"longToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5Ijoic3VwZXJhZG1pbkBzeXN0ZW0uY29tIiwidXNlcklkIjoiNjk4ZDgxYmRjMTUxNWRjNGI5MjQ2YmM5IiwiaWF0IjoxNzcwODgxNDc4LCJleHAiOjE3NzE0ODYyNzh9.uGOJwqzMpu4ACdjiGGOawLqvcD4YAEmIHePjHC7LgUo\",\n        \"shortToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5Ijoic3VwZXJhZG1pbkBzeXN0ZW0uY29tIiwidXNlcklkIjoiNjk4ZDgxYmRjMTUxNWRjNGI5MjQ2YmM5Iiwic2Vzc2lvbklkIjoiaXUwSUlPTHhJRjFhWGhZWlpfdjRBIiwicm9sZSI6InN1cGVyYWRtaW4iLCJzY2hvb2xJZCI6bnVsbCwiaWF0IjoxNzcwODgxNDc4LCJleHAiOjE3NzA5Njc4Nzh9._8NMfA2GJfX5WxiG6UWkn0mfqBJCfAphPptDEBapERU\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login School Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('schoolAdminToken', response.data.shortToken);",
+                  "    pm.collectionVariables.set('schoolAdminLongToken', response.data.longToken);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@ice.edu\",\n  \"password\": \"Password123#\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"admin@ice.edu\",\n  \"password\": \"Password123#\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "login"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "5"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "3"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 08:08:00 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770884416"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "781"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"30d-0B7PVHSeHOjYMZqyHFJTS5GixX0\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"admin\": {\n            \"id\": \"698d8a0e7f599ab46282dfc3\",\n            \"email\": \"admin@ice.edu\",\n            \"name\": \"Ranchoddas Chanchad\",\n            \"role\": \"school_admin\",\n            \"schoolId\": \"698d8933151be5850a882f2f\"\n        },\n        \"longToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiYWRtaW5AaWNlLmVkdSIsInVzZXJJZCI6IjY5OGQ4YTBlN2Y1OTlhYjQ2MjgyZGZjMyIsImlhdCI6MTc3MDg4MzY4MCwiZXhwIjoxNzcxNDg4NDgwfQ.VtI0lG1FI0sD5Ylq26icYA5lVagriM99ONghN30j34k\",\n        \"shortToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiYWRtaW5AaWNlLmVkdSIsInVzZXJJZCI6IjY5OGQ4YTBlN2Y1OTlhYjQ2MjgyZGZjMyIsInNlc3Npb25JZCI6InBRT3N2ZkY1S1FVU3VxZ1lHU0hUSSIsInJvbGUiOiJzY2hvb2xfYWRtaW4iLCJzY2hvb2xJZCI6IjY5OGQ4OTMzMTUxYmU1ODUwYTg4MmYyZiIsImlhdCI6MTc3MDg4MzY4MCwiZXhwIjoxNzcwOTcwMDgwfQ.m_qQvBvnb-Ex-u-onsL4W81wqy20YuvwFL_oHzlgjhY\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Short Token",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{superadminLongToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/token/v1_createShortToken",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "token",
+                "v1_createShortToken"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/token/v1_createShortToken",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "token",
+                    "v1_createShortToken"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 20:40:44 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770929715"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "381"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"17d-YTU5H0kniHzhDIRO7aS6sOHQDw4\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"shortToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiYWRtaW5AaWNlLmVkdSIsInVzZXJJZCI6IjY5OGQ4YTBlN2Y1OTlhYjQ2MjgyZGZjMyIsInNlc3Npb25JZCI6IkpJV3hiLURUbDVTUERMdE05VURxdSIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3NzA5Mjg4NDQsImV4cCI6MTc3MTAxNTI0NH0.gU-JMGKqTBuxJFOaI_teQRk5phEWDJ8l9s5j-Y-IySg\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "error - unauthorized",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/token/v1_createShortToken",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "token",
+                    "v1_createShortToken"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "87"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 20:42:45 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770929715"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "59"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3b-xaYOL2aN+7nm6obOhEBxb5LdsCY\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": \"unauthorized\",\n    \"message\": \"\"\n}"
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Management",
+      "item": [
+        {
+          "name": "Register School Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    console.log('Admin created:', response.data.admin.id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@ice.edu\",\n  \"password\": \"Password123#\",\n  \"name\": \"Ranchoddas Chanchad\",\n  \"role\": \"school_admin\",\n  \"schoolId\": \"{{schoolId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "register"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{superadminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"admin@ice.edu\",\n  \"password\": \"Password123#\",\n  \"name\": \"Ranchoddas Chanchad\",\n  \"role\": \"school_admin\",\n  \"schoolId\": \"{{schoolId}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/register",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "register"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "5"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "4"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 08:06:38 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770884416"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "200"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"c8-06pv2ujJiqj3dQqYk4cU03FYFjI\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"admin\": {\n            \"id\": \"698d8a0e7f599ab46282dfc3\",\n            \"email\": \"admin@ice.edu\",\n            \"name\": \"Ranchoddas Chanchad\",\n            \"role\": \"school_admin\",\n            \"schoolId\": \"698d8933151be5850a882f2f\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "error - account exists",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"admin@ice.edu\",\n  \"password\": \"Password123#\",\n  \"name\": \"Ranchoddas Chanchad\",\n  \"role\": \"school_admin\",\n  \"schoolId\": \"{{schoolId}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/register",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "register"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "5"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "4"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 16:30:02 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770914327"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "71"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"47-Qw8Zumuk3bRWna/fF3KRmAf25I4\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"Email already registered\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Admins",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{superadminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/list?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "List Admins",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{superadminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/list?page=1&limit=10",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "list"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "97"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 08:07:03 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770884416"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "491"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1eb-yB0ljHqVJLJv5QO7QqZFCF6I4C0\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"admins\": [\n            {\n                \"id\": \"698d8a0e7f599ab46282dfc3\",\n                \"email\": \"admin@ice.edu\",\n                \"name\": \"Ranchoddas Chanchad\",\n                \"role\": \"school_admin\",\n                \"schoolId\": \"698d8933151be5850a882f2f\",\n                \"isActive\": true,\n                \"createdAt\": \"2026-02-12T08:06:38.142Z\",\n                \"updatedAt\": \"2026-02-12T08:06:38.142Z\"\n            },\n            {\n                \"id\": \"698d81bdc1515dc4b9246bc9\",\n                \"email\": \"superadmin@system.com\",\n                \"name\": \"Super Admin\",\n                \"role\": \"superadmin\",\n                \"schoolId\": null,\n                \"isActive\": true\n            }\n        ],\n        \"pagination\": {\n            \"page\": 1,\n            \"limit\": 10,\n            \"total\": 2,\n            \"pages\": 1\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{superadminToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "School Management",
+      "item": [
+        {
+          "name": "Create School",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('schoolId', response.data.school.id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Imperial College of Engineering\",\n  \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n  \"phone\": \"+911234567890\",\n  \"email\": \"info@ice.edu\",\n  \"principal\": \"Viru Sahastrabuddhe\",\n  \"establishedYear\": 1964\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/school/create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "school",
+                "create"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Imperial College of Engineering\",\n  \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n  \"phone\": \"+911234567890\",\n  \"email\": \"info@ice.edu\",\n  \"principal\": \"Viru Sahastrabuddhe\",\n  \"establishedYear\": 1964\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/school/create",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "create"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "97"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 07:32:43 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770882290"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "412"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"19c-kSZIR6bpHyf3sQQfORhiq+0i5l8\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"school\": {\n            \"name\": \"Imperial College of Engineering\",\n            \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n            \"phone\": \"+911234567890\",\n            \"email\": \"info@ice.edu\",\n            \"principal\": \"Viru Sahastrabuddhe\",\n            \"establishedYear\": 1964,\n            \"isActive\": true,\n            \"createdBy\": \"698d81bdc1515dc4b9246bc9\",\n            \"createdAt\": \"2026-02-12T07:32:43.657Z\",\n            \"updatedAt\": \"2026-02-12T07:32:43.657Z\",\n            \"id\": \"698d821b45ea882c7a58f35e\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "error - duplicate school",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Imperial College of Engineering\",\n  \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n  \"phone\": \"+911234567890\",\n  \"email\": \"info@ice.edu\",\n  \"principal\": \"Viru Sahastrabuddhe\",\n  \"establishedYear\": 1964\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/school/create",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "create"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "96"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 07:32:55 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770882290"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "95"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"5f-WbRXgLslah9TyvdJ42wsfxVDu8I\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"School with this name and address already exists\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Schools",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/school/list?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "school",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/school/list?page=1&limit=10",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "list"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 07:38:28 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770882798"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "470"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1d6-KNIwuc3AI9GbmxNKlcaKm14mtoM\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"schools\": [\n            {\n                \"name\": \"Imperial College of Engineering\",\n                \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n                \"phone\": \"+911234567890\",\n                \"email\": \"info@ice.edu\",\n                \"principal\": \"Viru Sahastrabuddhe\",\n                \"establishedYear\": 1964,\n                \"isActive\": true,\n                \"createdBy\": \"698d81bdc1515dc4b9246bc9\",\n                \"createdAt\": \"2026-02-12T07:32:43.657Z\",\n                \"updatedAt\": \"2026-02-12T07:32:43.657Z\",\n                \"id\": \"698d821b45ea882c7a58f35e\"\n            }\n        ],\n        \"pagination\": {\n            \"page\": 1,\n            \"limit\": 10,\n            \"total\": 1,\n            \"pages\": 1\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get School by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/school/getById?schoolId={{schoolId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "school",
+                "getById"
+              ],
+              "query": [
+                {
+                  "key": "schoolId",
+                  "value": "{{schoolId}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{superadminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/school/getById?schoolId={{schoolId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "getById"
+                  ],
+                  "query": [
+                    {
+                      "key": "schoolId",
+                      "value": "{{schoolId}}"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "97"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 07:39:37 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770882798"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "412"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"19c-kSZIR6bpHyf3sQQfORhiq+0i5l8\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"school\": {\n            \"name\": \"Imperial College of Engineering\",\n            \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n            \"phone\": \"+911234567890\",\n            \"email\": \"info@ice.edu\",\n            \"principal\": \"Viru Sahastrabuddhe\",\n            \"establishedYear\": 1964,\n            \"isActive\": true,\n            \"createdBy\": \"698d81bdc1515dc4b9246bc9\",\n            \"createdAt\": \"2026-02-12T07:32:43.657Z\",\n            \"updatedAt\": \"2026-02-12T07:32:43.657Z\",\n            \"id\": \"698d821b45ea882c7a58f35e\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "error - not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{superadminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/school/getById?schoolId={{schoolId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "getById"
+                  ],
+                  "query": [
+                    {
+                      "key": "schoolId",
+                      "value": "{{schoolId}}"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "88"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 08:03:23 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770884214"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-hCxoe0vOglgHl9nWxFxkxE5WIXc\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"School not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Restore School",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/school/restore?schoolId={{schoolId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "school",
+                "restore"
+              ],
+              "query": [
+                {
+                  "key": "schoolId",
+                  "value": "{{schoolId}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/school/restore?schoolId={{schoolId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "restore"
+                  ],
+                  "query": [
+                    {
+                      "key": "schoolId",
+                      "value": "{{schoolId}}"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 17:18:31 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770917424"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "470"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1d6-i4uhAhFTvKlFDreUNDq2ZRNng2w\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"school\": {\n            \"name\": \"Imperial College of Engineering\",\n            \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n            \"phone\": \"+911234567890\",\n            \"email\": \"info@ice.edu\",\n            \"principal\": \"Viru Sahastrabuddhe\",\n            \"establishedYear\": 1964,\n            \"isActive\": true,\n            \"deletedAt\": null,\n            \"createdBy\": \"698d81bdc1515dc4b9246bc9\",\n            \"createdAt\": \"2026-02-12T16:41:06.144Z\",\n            \"updatedAt\": \"2026-02-12T17:18:31.588Z\",\n            \"id\": \"698e02a2036fc138f76a88d2\"\n        },\n        \"message\": \"School restored successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update School",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schoolId\": \"{{schoolId}}\",\n  \"name\": \"Imperial College of Engineering - ICE\",\n  \"principal\": \"Director Viru Sahastrabuddhe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/school/update",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "school",
+                "update"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{superadminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schoolId\": \"{{schoolId}}\",\n  \"name\": \"Imperial College of Engineering - ICE\",\n  \"principal\": \"Director Viru Sahastrabuddhe\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/school/update",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "update"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 07:45:21 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770883203"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "427"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1ab-hoZZO0rqXJP75lE046T5/g3eSDk\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"school\": {\n            \"name\": \"Imperial College of Engineering - ICE\",\n            \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n            \"phone\": \"+911234567890\",\n            \"email\": \"info@ice.edu\",\n            \"principal\": \"Director Viru Sahastrabuddhe\",\n            \"establishedYear\": 1964,\n            \"isActive\": true,\n            \"createdBy\": \"698d81bdc1515dc4b9246bc9\",\n            \"createdAt\": \"2026-02-12T07:32:43.657Z\",\n            \"updatedAt\": \"2026-02-12T07:45:21.270Z\",\n            \"id\": \"698d821b45ea882c7a58f35e\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "error - not found",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schoolId\": \"{{schoolId}}\",\n  \"name\": \"Imperial College of Engineering - ICE\",\n  \"principal\": \"Director Viru Sahastrabuddhe\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/school/update",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "update"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 16:39:50 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770915288"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-hCxoe0vOglgHl9nWxFxkxE5WIXc\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"School not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete School",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schoolId\": \"{{schoolId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/school/delete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "school",
+                "delete"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{superadminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schoolId\": \"{{schoolId}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/school/delete",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "delete"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "89"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 08:03:05 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770884214"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "491"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1eb-yLmKjLkyK4ziQaDwUE702cdB46Q\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"message\": \"School deleted successfully\",\n        \"school\": {\n            \"name\": \"Imperial College of Engineering\",\n            \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n            \"phone\": \"+911234567890\",\n            \"email\": \"info@ice.edu\",\n            \"principal\": \"Viru Sahastrabuddhe\",\n            \"establishedYear\": 1964,\n            \"isActive\": true,\n            \"deletedAt\": \"2026-02-12T08:03:05.650Z\",\n            \"createdBy\": \"698d81bdc1515dc4b9246bc9\",\n            \"createdAt\": \"2026-02-12T08:02:59.568Z\",\n            \"updatedAt\": \"2026-02-12T08:03:05.650Z\",\n            \"id\": \"698d8933151be5850a882f2f\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "error - not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{superadminToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schoolId\": \"{{schoolId}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/school/delete",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "school",
+                    "delete"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 08:05:20 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770884416"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "63"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f-hCxoe0vOglgHl9nWxFxkxE5WIXc\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"School not found\"\n}"
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{superadminToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Classroom Management",
+      "item": [
+        {
+          "name": "Create Classroom",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('classroomId', response.data.classroom._id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"schoolId\": \"{{schoolId}}\",\n    \"name\": \"Mechanical Engineering Block\",\n    \"grade\": \"Final Year\",\n    \"section\": \"A\",\n    \"capacity\": 30,\n    \"minAge\": 18,\n    \"maxAge\": 45,\n    \"resources\": [\n        {\n            \"name\": \"whiteboard\",\n            \"count\": 4\n        },\n        {\n            \"name\": \"chair\",\n            \"count\": 30\n        },\n        {\n            \"name\": \"desk\",\n            \"count\": 15\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/classroom/create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "classroom",
+                "create"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"schoolId\": \"{{schoolId}}\",\n    \"name\": \"Mechanical Engineering Block\",\n    \"grade\": \"Final Year\",\n    \"section\": \"A\",\n    \"capacity\": 30,\n    \"minAge\": 18,\n    \"maxAge\": 45,\n    \"resources\": [\n        {\n            \"name\": \"whiteboard\",\n            \"count\": 4\n        },\n        {\n            \"name\": \"chair\",\n            \"count\": 30\n        },\n        {\n            \"name\": \"desk\",\n            \"count\": 15\n        }\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/classroom/create",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "classroom",
+                    "create"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 13 Feb 2026 09:56:07 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770976738"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "457"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1c9-Tbj9oruYPlD/8CFVcKawtjn3Frk\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"classroom\": {\n            \"schoolId\": \"698e02a2036fc138f76a88d2\",\n            \"name\": \"Mechanical Engineering Block\",\n            \"grade\": \"Final Year\",\n            \"section\": \"A\",\n            \"capacity\": 30,\n            \"currentEnrollment\": 0,\n            \"minAge\": 18,\n            \"maxAge\": 45,\n            \"resources\": [\n                {\n                    \"name\": \"whiteboard\",\n                    \"count\": 4\n                },\n                {\n                    \"name\": \"chair\",\n                    \"count\": 30\n                },\n                {\n                    \"name\": \"desk\",\n                    \"count\": 15\n                }\n            ],\n            \"isActive\": true,\n            \"createdAt\": \"2026-02-13T09:56:07.359Z\",\n            \"updatedAt\": \"2026-02-13T09:56:07.359Z\",\n            \"id\": \"698ef5374b3249a0be642f8e\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "error - maxAge",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"schoolId\": \"{{schoolId}}\",\n    \"name\": \"Mechanical Engineering Block\",\n    \"grade\": \"Final Year\",\n    \"section\": \"A\",\n    \"capacity\": 30,\n    \"minAge\": 18,\n    \"maxAge\": 450,\n    \"resources\": [\n        \"Projector\",\n        \"Whiteboard\"\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/classroom/create",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "classroom",
+                    "create"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "97"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 19:30:55 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770925505"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "90"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"5a-m1KjBEvtDnAmeoPDNGOuMterf7I\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"\\\"maxAge\\\" must be less than or equal to 85\"\n}"
+            },
+            {
+              "name": "error - duplicate",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"schoolId\": \"{{schoolId}}\",\n    \"name\": \"Mechanical Engineering Block\",\n    \"grade\": \"Final Year\",\n    \"section\": \"A\",\n    \"capacity\": 30,\n    \"minAge\": 18,\n    \"maxAge\": 45,\n    \"resources\": [\n        {\n            \"name\": \"whiteboard\",\n            \"count\": 4\n        },\n        {\n            \"name\": \"chair\",\n            \"count\": 30\n        },\n        {\n            \"name\": \"desk\",\n            \"count\": 15\n        }\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/classroom/create",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "classroom",
+                    "create"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "97"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 13 Feb 2026 09:56:37 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770976738"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "121"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"79-0DHGGNRmX0os7/o6OWSWACuJhd4\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"Classroom with this name, grade, and section already exists in this school\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Classrooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/classroom/list?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "classroom",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/classroom/list?page=1&limit=10",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "classroom",
+                    "list"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "96"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 13 Feb 2026 09:57:09 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770976738"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "563"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"233-8chy1dJJLAqRITHYbC+dDtDE6lE\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"classrooms\": [\n            {\n                \"schoolId\": {\n                    \"name\": \"Imperial College of Engineering\",\n                    \"id\": \"698e02a2036fc138f76a88d2\"\n                },\n                \"name\": \"Mechanical Engineering Block\",\n                \"grade\": \"Final Year\",\n                \"section\": \"A\",\n                \"capacity\": 30,\n                \"currentEnrollment\": 0,\n                \"minAge\": 18,\n                \"maxAge\": 45,\n                \"resources\": [\n                    {\n                        \"name\": \"whiteboard\",\n                        \"count\": 4\n                    },\n                    {\n                        \"name\": \"chair\",\n                        \"count\": 30\n                    },\n                    {\n                        \"name\": \"desk\",\n                        \"count\": 15\n                    }\n                ],\n                \"isActive\": true,\n                \"createdAt\": \"2026-02-13T09:56:07.359Z\",\n                \"updatedAt\": \"2026-02-13T09:56:07.359Z\",\n                \"id\": \"698ef5374b3249a0be642f8e\"\n            }\n        ],\n        \"pagination\": {\n            \"page\": 1,\n            \"limit\": 10,\n            \"total\": 1,\n            \"pages\": 1\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Classroom by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/classroom/getById?classroomId={{classroomId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "classroom",
+                "getById"
+              ],
+              "query": [
+                {
+                  "key": "classroomId",
+                  "value": "{{classroomId}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/classroom/getById?classroomId={{classroomId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "classroom",
+                    "getById"
+                  ],
+                  "query": [
+                    {
+                      "key": "classroomId",
+                      "value": "{{classroomId}}"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "94"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 13 Feb 2026 09:58:05 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770976738"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "505"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1f9-FOpMCGr53nTeo8+7G0gOTnDJGaU\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"classroom\": {\n            \"schoolId\": {\n                \"name\": \"Imperial College of Engineering\",\n                \"id\": \"698e02a2036fc138f76a88d2\"\n            },\n            \"name\": \"Mechanical Engineering Block\",\n            \"grade\": \"Final Year\",\n            \"section\": \"A\",\n            \"capacity\": 30,\n            \"currentEnrollment\": 0,\n            \"minAge\": 18,\n            \"maxAge\": 45,\n            \"resources\": [\n                {\n                    \"name\": \"whiteboard\",\n                    \"count\": 4\n                },\n                {\n                    \"name\": \"chair\",\n                    \"count\": 30\n                },\n                {\n                    \"name\": \"desk\",\n                    \"count\": 15\n                }\n            ],\n            \"isActive\": true,\n            \"createdAt\": \"2026-02-13T09:56:07.359Z\",\n            \"updatedAt\": \"2026-02-13T09:56:07.359Z\",\n            \"id\": \"698ef5374b3249a0be642f8e\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Classroom",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"classroomId\": \"{{classroomId}}\",\n  \"capacity\": 12\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/classroom/update",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "classroom",
+                "update"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"classroomId\": \"{{classroomId}}\",\n  \"capacity\": 12\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/classroom/update",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "classroom",
+                    "update"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "93"
+                },
+                {
+                  "key": "Date",
+                  "value": "Fri, 13 Feb 2026 09:58:37 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770976738"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "457"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1c9-VBnSN/IZpCnVxdbcLEUsryy1ScM\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"classroom\": {\n            \"schoolId\": \"698e02a2036fc138f76a88d2\",\n            \"name\": \"Mechanical Engineering Block\",\n            \"grade\": \"Final Year\",\n            \"section\": \"A\",\n            \"capacity\": 12,\n            \"currentEnrollment\": 0,\n            \"minAge\": 18,\n            \"maxAge\": 45,\n            \"resources\": [\n                {\n                    \"name\": \"whiteboard\",\n                    \"count\": 4\n                },\n                {\n                    \"name\": \"chair\",\n                    \"count\": 30\n                },\n                {\n                    \"name\": \"desk\",\n                    \"count\": 15\n                }\n            ],\n            \"isActive\": true,\n            \"createdAt\": \"2026-02-13T09:56:07.359Z\",\n            \"updatedAt\": \"2026-02-13T09:58:37.465Z\",\n            \"id\": \"698ef5374b3249a0be642f8e\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Classroom",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"classroomId\": \"{{classroomId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/classroom/delete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "classroom",
+                "delete"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"classroomId\": \"{{classroomId}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/classroom/delete",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "classroom",
+                    "delete"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 19:14:33 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770924403"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "88"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"58-jImJ90McSy0kzsZTtlPnK9OKHYc\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"message\": \"Classroom deleted successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Restore Classroom",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/classroom/restore?classroomId={{classroomId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "classroom",
+                "restore"
+              ],
+              "query": [
+                {
+                  "key": "classroomId",
+                  "value": "{{classroomId}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/classroom/restore?classroomId={{classroomId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "classroom",
+                    "restore"
+                  ],
+                  "query": [
+                    {
+                      "key": "classroomId",
+                      "value": "{{classroomId}}"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "97"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 19:16:33 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770924403"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "438"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1b6-hUxUl0LghpHLNUpkqop8OJ3fBtk\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"classroom\": {\n            \"minAge\": 3,\n            \"maxAge\": 25,\n            \"schoolId\": \"698e02a2036fc138f76a88d2\",\n            \"name\": \"Mechanical Engineering Block\",\n            \"grade\": \"Final Year\",\n            \"section\": \"A\",\n            \"capacity\": 35,\n            \"currentEnrollment\": 0,\n            \"resources\": [\n                \"Projector\",\n                \"Whiteboard\"\n            ],\n            \"isActive\": true,\n            \"createdAt\": \"2026-02-12T18:09:30.538Z\",\n            \"updatedAt\": \"2026-02-12T19:16:33.745Z\",\n            \"id\": \"698e175a640acdb4fd652ba1\"\n        },\n        \"message\": \"Classroom restored successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{schoolAdminToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Student Management",
+      "item": [
+        {
+          "name": "Enroll Student",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('studentId', response.data.student._id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"schoolId\": \"{{schoolId}}\",\n    \"classroomId\": \"{{classroomId}}\",\n    \"students\": [\n        {\n            \"firstName\": \"Ranchoddas\",\n            \"lastName\": \"Chanchad\",\n            \"dateOfBirth\": \"1985-09-05\",\n            \"gender\": \"male\",\n            \"email\": \"rancho@ice.edu\",\n            \"phone\": \"+911234567890\",\n            \"address\": \"Shimla, Himachal Pradesh\",\n            \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n            \"guardianPhone\": \"+911234567891\"\n        },\n        {\n            \"firstName\": \"Farhan\",\n            \"lastName\": \"Qureshi\",\n            \"dateOfBirth\": \"1985-09-05\",\n            \"gender\": \"male\",\n            \"email\": \"farhan@ice.edu\",\n            \"phone\": \"+911234567892\",\n            \"address\": \"Delhi, India\",\n            \"guardianName\": \"Mr. Qureshi\",\n            \"guardianPhone\": \"+911234567893\"\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/student/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "enroll"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "error - invalid input",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"schoolId\": \"{{schoolId}}\",\n  \"classroomId\": \"{{classroomId}}\",\n  \"students\": [\n    {\n      \"firstName\": \"Ranchoddas\",\n      \"lastName\": \"Chanchad\",\n      \"dateOfBirth\": \"1985-09-05\",\n      \"gender\": \"male\",\n      \"email\": \"rancho@ice.edu\",\n      \"phone\": \"+911234567890\",\n      \"address\": \"Shimla, Himachal Pradesh\",\n      \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n      \"guardianPhone\": \"+911234567891\"\n    },\n    {\n      \"firstName\": \"Farhan\",\n      \"lastName\": \"Qureshi\",\n      \"dateOfBirth\": \"1985-09-05\",\n      \"gender\": \"male\",\n      \"email\": \"farhan@ice.edu\",\n      \"phone\": \"+911234567892\",\n      \"address\": \"Delhi, India\",\n      \"guardianName\": \"Mr. Qureshi\",\n      \"guardianPhone\": \"+911234567893\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/student/enroll",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "enroll"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "97"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 19:01:24 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770923677"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "160"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"a0-SH9eCro3fhStgzh1rBUk4jiI+Nc\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [\n        {\n            \"index\": 0,\n            \"error\": \"Invalid age for student enrollment\"\n        },\n        {\n            \"index\": 1,\n            \"error\": \"Invalid age for student enrollment\"\n        }\n    ],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"schoolId\": \"{{schoolId}}\",\n    \"classroomId\": \"{{classroomId}}\",\n    \"students\": [\n        {\n            \"firstName\": \"Ranchoddas\",\n            \"lastName\": \"Chanchad\",\n            \"dateOfBirth\": \"1985-09-05\",\n            \"gender\": \"male\",\n            \"email\": \"rancho@ice.edu\",\n            \"phone\": \"+911234567890\",\n            \"address\": \"Shimla, Himachal Pradesh\",\n            \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n            \"guardianPhone\": \"+911234567891\"\n        },\n        {\n            \"firstName\": \"Farhan\",\n            \"lastName\": \"Qureshi\",\n            \"dateOfBirth\": \"1985-09-05\",\n            \"gender\": \"male\",\n            \"email\": \"farhan@ice.edu\",\n            \"phone\": \"+911234567892\",\n            \"address\": \"Delhi, India\",\n            \"guardianName\": \"Mr. Qureshi\",\n            \"guardianPhone\": \"+911234567893\"\n        }\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/student/enroll",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "enroll"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "93"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 19:38:06 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770925505"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1133"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"46d-rA+Shess3hPW/C8u+Ts0keYZzq4\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"students\": [\n            {\n                \"schoolId\": \"698e02a2036fc138f76a88d2\",\n                \"classroomId\": \"698e2a417ac2fcf7a1bc0940\",\n                \"firstName\": \"Ranchoddas\",\n                \"lastName\": \"Chanchad\",\n                \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n                \"gender\": \"male\",\n                \"email\": \"rancho@ice.edu\",\n                \"phone\": \"+911234567890\",\n                \"address\": \"Shimla, Himachal Pradesh\",\n                \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n                \"guardianPhone\": \"+911234567891\",\n                \"isActive\": true,\n                \"enrollmentDate\": \"2026-02-12T19:38:06.647Z\",\n                \"transferHistory\": [],\n                \"createdAt\": \"2026-02-12T19:38:06.649Z\",\n                \"updatedAt\": \"2026-02-12T19:38:06.649Z\",\n                \"id\": \"698e2c1e7ac2fcf7a1bc094c\"\n            },\n            {\n                \"schoolId\": \"698e02a2036fc138f76a88d2\",\n                \"classroomId\": \"698e2a417ac2fcf7a1bc0940\",\n                \"firstName\": \"Farhan\",\n                \"lastName\": \"Qureshi\",\n                \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n                \"gender\": \"male\",\n                \"email\": \"farhan@ice.edu\",\n                \"phone\": \"+911234567892\",\n                \"address\": \"Delhi, India\",\n                \"guardianName\": \"Mr. Qureshi\",\n                \"guardianPhone\": \"+911234567893\",\n                \"isActive\": true,\n                \"enrollmentDate\": \"2026-02-12T19:38:06.652Z\",\n                \"transferHistory\": [],\n                \"createdAt\": \"2026-02-12T19:38:06.652Z\",\n                \"updatedAt\": \"2026-02-12T19:38:06.652Z\",\n                \"id\": \"698e2c1e7ac2fcf7a1bc094f\"\n            }\n        ],\n        \"enrolled\": 2,\n        \"failed\": 0\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "List Students",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/student/list?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "list"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/student/list?page=1&limit=10",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "list"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "92"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 19:44:13 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770925505"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1420"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"58c-SC2sk+qXC6bNvk9tDYAx/+rZIYY\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"students\": [\n            {\n                \"schoolId\": {\n                    \"name\": \"Imperial College of Engineering\",\n                    \"id\": \"698e02a2036fc138f76a88d2\"\n                },\n                \"classroomId\": {\n                    \"name\": \"Mechanical Engineering Block\",\n                    \"grade\": \"Final Year\",\n                    \"section\": \"A\",\n                    \"id\": \"698e2a417ac2fcf7a1bc0940\"\n                },\n                \"firstName\": \"Farhan\",\n                \"lastName\": \"Qureshi\",\n                \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n                \"gender\": \"male\",\n                \"email\": \"farhan@ice.edu\",\n                \"phone\": \"+911234567892\",\n                \"address\": \"Delhi, India\",\n                \"guardianName\": \"Mr. Qureshi\",\n                \"guardianPhone\": \"+911234567893\",\n                \"isActive\": true,\n                \"enrollmentDate\": \"2026-02-12T19:38:06.652Z\",\n                \"transferHistory\": [],\n                \"createdAt\": \"2026-02-12T19:38:06.652Z\",\n                \"updatedAt\": \"2026-02-12T19:38:06.652Z\",\n                \"id\": \"698e2c1e7ac2fcf7a1bc094f\"\n            },\n            {\n                \"schoolId\": {\n                    \"name\": \"Imperial College of Engineering\",\n                    \"id\": \"698e02a2036fc138f76a88d2\"\n                },\n                \"classroomId\": {\n                    \"name\": \"Mechanical Engineering Block\",\n                    \"grade\": \"Final Year\",\n                    \"section\": \"A\",\n                    \"id\": \"698e2a417ac2fcf7a1bc0940\"\n                },\n                \"firstName\": \"Ranchoddas\",\n                \"lastName\": \"Chanchad\",\n                \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n                \"gender\": \"male\",\n                \"email\": \"rancho@ice.edu\",\n                \"phone\": \"+911234567890\",\n                \"address\": \"Shimla, Himachal Pradesh\",\n                \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n                \"guardianPhone\": \"+911234567891\",\n                \"isActive\": true,\n                \"enrollmentDate\": \"2026-02-12T19:38:06.647Z\",\n                \"transferHistory\": [],\n                \"createdAt\": \"2026-02-12T19:38:06.649Z\",\n                \"updatedAt\": \"2026-02-12T19:38:06.649Z\",\n                \"id\": \"698e2c1e7ac2fcf7a1bc094c\"\n            }\n        ],\n        \"pagination\": {\n            \"page\": 1,\n            \"limit\": 10,\n            \"total\": 2,\n            \"pages\": 1\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Student by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/student/getById?studentId={{studentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "getById"
+              ],
+              "query": [
+                {
+                  "key": "studentId",
+                  "value": "{{studentId}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/student/getById?studentId={{studentId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "getById"
+                  ],
+                  "query": [
+                    {
+                      "key": "studentId",
+                      "value": "{{studentId}}"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "98"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 20:03:36 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770927383"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "907"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"38b-9cXDScvmSNiVpCX2aaXGh4gi8u0\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"student\": {\n            \"schoolId\": {\n                \"name\": \"Imperial College of Engineering - ICE\",\n                \"id\": \"698d8933151be5850a882f2f\"\n            },\n            \"classroomId\": {\n                \"name\": \"Mechanical Engineering Block\",\n                \"grade\": \"Final Year\",\n                \"section\": \"A\",\n                \"id\": \"698e30a07ac2fcf7a1bc0964\"\n            },\n            \"firstName\": \"Ranchoddas\",\n            \"lastName\": \"Chanchad\",\n            \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n            \"gender\": \"male\",\n            \"email\": \"rancho@ice.edu\",\n            \"phone\": \"+919876543210\",\n            \"address\": \"New Address, Delhi\",\n            \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n            \"guardianPhone\": \"+911234567891\",\n            \"isActive\": true,\n            \"enrollmentDate\": \"2026-02-12T19:38:06.647Z\",\n            \"transferHistory\": [\n                {\n                    \"fromSchoolId\": \"698e02a2036fc138f76a88d2\",\n                    \"toSchoolId\": \"698d8933151be5850a882f2f\",\n                    \"date\": \"2026-02-12T19:58:52.550Z\",\n                    \"reason\": \"Family relocation\",\n                    \"_id\": \"698e30fc7ac2fcf7a1bc0969\"\n                }\n            ],\n            \"createdAt\": \"2026-02-12T19:38:06.649Z\",\n            \"updatedAt\": \"2026-02-12T19:58:52.558Z\",\n            \"id\": \"698e2c1e7ac2fcf7a1bc094c\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "error - not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/student/getById?studentId={{studentId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "getById"
+                  ],
+                  "query": [
+                    {
+                      "key": "studentId",
+                      "value": "{{studentId}}"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "99"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 20:05:37 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770927600"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "64"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"40-9fQcfMEY0a7R6qNQGsYP1tiJILE\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"Student not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Student",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"phone\": \"+919876543210\",\n  \"address\": \"New Address, Delhi\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/student/update",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "update"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"phone\": \"+919876543210\",\n  \"address\": \"New Address, Delhi\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/student/update",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "update"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "96"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 19:50:32 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770926405"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "594"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"252-OT5lLyBo+040kOmbaSdVXyn2m2I\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"student\": {\n            \"schoolId\": \"698e02a2036fc138f76a88d2\",\n            \"classroomId\": \"698e2a417ac2fcf7a1bc0940\",\n            \"firstName\": \"Ranchoddas\",\n            \"lastName\": \"Chanchad\",\n            \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n            \"gender\": \"male\",\n            \"email\": \"rancho@ice.edu\",\n            \"phone\": \"+919876543210\",\n            \"address\": \"New Address, Delhi\",\n            \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n            \"guardianPhone\": \"+911234567891\",\n            \"isActive\": true,\n            \"enrollmentDate\": \"2026-02-12T19:38:06.647Z\",\n            \"transferHistory\": [],\n            \"createdAt\": \"2026-02-12T19:38:06.649Z\",\n            \"updatedAt\": \"2026-02-12T19:50:32.335Z\",\n            \"id\": \"698e2c1e7ac2fcf7a1bc094c\"\n        }\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Transfer Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"toSchoolId\": \"698d8933151be5850a882f2f\",\n  \"toClassroomId\": \"698e30a07ac2fcf7a1bc0964\",\n  \"reason\": \"Family relocation\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/student/transfer",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "transfer"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"toSchoolId\": \"698d8933151be5850a882f2f\",\n  \"toClassroomId\": \"698e30a07ac2fcf7a1bc0964\",\n  \"reason\": \"Family relocation\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/student/transfer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "transfer"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "86"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 19:58:52 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770926405"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "818"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"332-3R7p/vBLrnB4rBuYU5F6A7T1NjM\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"student\": {\n            \"schoolId\": \"698d8933151be5850a882f2f\",\n            \"classroomId\": \"698e30a07ac2fcf7a1bc0964\",\n            \"firstName\": \"Ranchoddas\",\n            \"lastName\": \"Chanchad\",\n            \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n            \"gender\": \"male\",\n            \"email\": \"rancho@ice.edu\",\n            \"phone\": \"+919876543210\",\n            \"address\": \"New Address, Delhi\",\n            \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n            \"guardianPhone\": \"+911234567891\",\n            \"isActive\": true,\n            \"enrollmentDate\": \"2026-02-12T19:38:06.647Z\",\n            \"transferHistory\": [\n                {\n                    \"fromSchoolId\": \"698e02a2036fc138f76a88d2\",\n                    \"toSchoolId\": \"698d8933151be5850a882f2f\",\n                    \"date\": \"2026-02-12T19:58:52.550Z\",\n                    \"reason\": \"Family relocation\",\n                    \"_id\": \"698e30fc7ac2fcf7a1bc0969\"\n                }\n            ],\n            \"createdAt\": \"2026-02-12T19:38:06.649Z\",\n            \"updatedAt\": \"2026-02-12T19:58:52.558Z\",\n            \"id\": \"698e2c1e7ac2fcf7a1bc094c\"\n        },\n        \"message\": \"Student transferred successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Student",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{studentId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/student/delete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "delete"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"studentId\": \"{{studentId}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/student/delete",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "delete"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "97"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 20:08:40 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770927600"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "86"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"56-1tIHlurV9LqWvJ7YITJejqdSxAI\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"message\": \"Student deleted successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            },
+            {
+              "name": "error - not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"studentId\": \"{{studentId}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/student/delete",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "delete"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "96"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 20:09:07 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770927600"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "64"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"40-9fQcfMEY0a7R6qNQGsYP1tiJILE\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"Student not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Restore Student",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/student/restore?studentId={{studentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "student",
+                "restore"
+              ],
+              "query": [
+                {
+                  "key": "studentId",
+                  "value": "{{studentId}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/student/restore?studentId={{studentId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "student",
+                    "restore"
+                  ],
+                  "query": [
+                    {
+                      "key": "studentId",
+                      "value": "{{studentId}}"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "Content-Security-Policy",
+                  "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                },
+                {
+                  "key": "Cross-Origin-Opener-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Cross-Origin-Resource-Policy",
+                  "value": "same-origin"
+                },
+                {
+                  "key": "Origin-Agent-Cluster",
+                  "value": "?1"
+                },
+                {
+                  "key": "Referrer-Policy",
+                  "value": "no-referrer"
+                },
+                {
+                  "key": "Strict-Transport-Security",
+                  "value": "max-age=15552000; includeSubDomains"
+                },
+                {
+                  "key": "X-Content-Type-Options",
+                  "value": "nosniff"
+                },
+                {
+                  "key": "X-DNS-Prefetch-Control",
+                  "value": "off"
+                },
+                {
+                  "key": "X-Download-Options",
+                  "value": "noopen"
+                },
+                {
+                  "key": "X-Frame-Options",
+                  "value": "SAMEORIGIN"
+                },
+                {
+                  "key": "X-Permitted-Cross-Domain-Policies",
+                  "value": "none"
+                },
+                {
+                  "key": "X-XSS-Protection",
+                  "value": "0"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-RateLimit-Limit",
+                  "value": "100"
+                },
+                {
+                  "key": "X-RateLimit-Remaining",
+                  "value": "94"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 12 Feb 2026 20:09:49 GMT"
+                },
+                {
+                  "key": "X-RateLimit-Reset",
+                  "value": "1770927600"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "603"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"25b-AT2qS9Dew9ZE2Hth+kbKD57qhvQ\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"student\": {\n            \"schoolId\": \"698e02a2036fc138f76a88d2\",\n            \"classroomId\": \"698e2a417ac2fcf7a1bc0940\",\n            \"firstName\": \"Farhan\",\n            \"lastName\": \"Qureshi\",\n            \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n            \"gender\": \"male\",\n            \"email\": \"farhan@ice.edu\",\n            \"phone\": \"+911234567892\",\n            \"address\": \"Delhi, India\",\n            \"guardianName\": \"Mr. Qureshi\",\n            \"guardianPhone\": \"+911234567893\",\n            \"isActive\": true,\n            \"enrollmentDate\": \"2026-02-12T19:38:06.652Z\",\n            \"transferHistory\": [],\n            \"createdAt\": \"2026-02-12T19:38:06.652Z\",\n            \"updatedAt\": \"2026-02-12T20:09:49.682Z\",\n            \"id\": \"698e2c1e7ac2fcf7a1bc094f\"\n        },\n        \"message\": \"Student restored successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{schoolAdminToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5111/api"
+    },
+    {
+      "key": "superadminToken",
+      "value": ""
+    },
+    {
+      "key": "schoolAdminToken",
+      "value": ""
+    },
+    {
+      "key": "schoolId",
+      "value": ""
+    },
+    {
+      "key": "classroomId",
+      "value": ""
+    },
+    {
+      "key": "studentId",
+      "value": ""
+    },
+    {
+      "key": "schoolAdminLongToken",
+      "value": ""
+    },
+    {
+      "key": "superadminLongToken",
+      "value": ""
+    }
+  ]
+}
