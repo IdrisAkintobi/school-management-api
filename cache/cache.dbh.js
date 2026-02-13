@@ -301,9 +301,10 @@ module.exports = ({ prefix, url }) => {
             getRandom: async ({ key, count }) => {
                 let args = [key, count];
                 try {
-                    await redisClient.call('ZRANDMEMBER', ...args);
+                    return await redisClient.call('ZRANDMEMBER', ...args);
                 } catch (err) {
                     console.log(err);
+                    return null;
                 }
             }
         }
