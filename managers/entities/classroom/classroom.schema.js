@@ -43,7 +43,17 @@ const classroomSchema = new mongoose.Schema({
         max: 85
     },
     resources: [{
-        type: String
+        name: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        count: {
+            type: Number,
+            required: true,
+            min: 0
+        },
+        _id: false
     }],
     isActive: {
         type: Boolean,

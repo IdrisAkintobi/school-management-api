@@ -1,5 +1,10 @@
 const Joi = require('joi');
 
+const resourceSchema = Joi.object({
+    name: Joi.string().min(1).required(),
+    count: Joi.number().integer().min(0).required()
+});
+
 const validators = {
     create: Joi.object({
         schoolId: Joi.string().required(),
@@ -9,7 +14,7 @@ const validators = {
         capacity: Joi.number().integer().min(1).required(),
         minAge: Joi.number().integer().min(1).max(85).default(3),
         maxAge: Joi.number().integer().min(1).max(85).default(25),
-        resources: Joi.array().items(Joi.string())
+        resources: Joi.array().items(resourceSchema)
     }).custom((value, helpers) => {
         if (value.minAge && value.maxAge && value.minAge > value.maxAge) {
             return helpers.error('any.invalid', { message: 'minAge cannot be greater than maxAge' });
@@ -25,7 +30,7 @@ const validators = {
         capacity: Joi.number().integer().min(1),
         minAge: Joi.number().integer().min(1).max(85),
         maxAge: Joi.number().integer().min(1).max(85),
-        resources: Joi.array().items(Joi.string()),
+        resources: Joi.array().items(resourceSchema),
         isActive: Joi.boolean()
     }).custom((value, helpers) => {
         if (value.minAge && value.maxAge && value.minAge > value.maxAge) {
