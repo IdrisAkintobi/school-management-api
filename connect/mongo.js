@@ -3,7 +3,9 @@ const logger = require('../libs/logger');
 
 module.exports = ({ uri }) => {
     //database connection
-    mongoose.connect(uri);
+    mongoose.connect(uri).catch(err => {
+        logger.error({ error: err.message }, 'MongoDB connection error');
+    });
 
     mongoose.connection.on('connected', function () {
         logger.info('MongoDB connection established');

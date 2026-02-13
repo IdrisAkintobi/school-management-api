@@ -45,7 +45,7 @@ module.exports = class TokenManager {
     _verifyToken({ token, secret }) {
         let decoded = null;
         try {
-            decoded = jwt.verify(token, secret);
+            decoded = jwt.verify(token, secret, { algorithms: ['HS256'] });
         } catch (err) {
             console.log(err);
         }
