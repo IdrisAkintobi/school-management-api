@@ -90,7 +90,7 @@ module.exports = class Classroom {
             }
 
             if (capacity !== undefined && capacity < classroom.currentEnrollment) {
-                return { error: 'Capacity cannot be less than current enrollment' };
+                return { error: `Cannot reduce capacity below current enrollment (${classroom.currentEnrollment})` };
             }
 
             const updateData = {};

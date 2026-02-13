@@ -217,17 +217,6 @@ module.exports = class School {
                 return { error: 'School is not deleted' };
             }
 
-            const existingActiveSchool = await this.SchoolModel.findOne({
-                name: school.name,
-                address: school.address,
-                deletedAt: null,
-                _id: { $ne: schoolId }
-            });
-
-            if (existingActiveSchool) {
-                return { error: 'Cannot restore: A school with this name and address already exists' };
-            }
-
             const restoredSchool = await this.SchoolModel.findByIdAndUpdate(
                 schoolId,
                 { deletedAt: null },
