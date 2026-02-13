@@ -1,4 +1,3 @@
-const AdminModel = require('./admin.schema');
 const validators = require('./admin.validators');
 const mongoose = require('mongoose');
 
@@ -13,25 +12,32 @@ module.exports = class Admin {
 
         // Injected models
         this.AdminModel = mongoModels.admin;
-        
-        this.httpExposed = [
-            'post=register',
-            'post=login',
-            'get=list',
-            'get=getById'
-        ];
+
+        this.httpExposed = ['post=register', 'post=login', 'get=list', 'get=getById'];
     }
 
     async register({ email, password, name, role, schoolId, __superadmin }) {
         try {
-            const { error } = this.validators.register.validate({ email, password, name, role, schoolId });
+            const { error } = this.validators.register.validate({
+                email,
+                password,
+                name,
+                role,
+                schoolId
+            });
             if (error) {
-                this.logger.debug({ email, role, error: error.details[0].message }, 'Admin registration validation failed');
+                this.logger.debug(
+                    { email, role, error: error.details[0].message },
+                    'Admin registration validation failed'
+                );
                 return { error: error.details[0].message };
             }
 
             if (role === 'school_admin' && !mongoose.Types.ObjectId.isValid(schoolId)) {
-                this.logger.warn({ email, schoolId }, 'Invalid school ID during admin registration');
+                this.logger.warn(
+                    { email, schoolId },
+                    'Invalid school ID during admin registration'
+                );
                 return { error: 'Invalid school ID' };
             }
 
@@ -71,7 +77,10 @@ module.exports = class Admin {
         try {
             const { error } = this.validators.login.validate({ email, password });
             if (error) {
-                this.logger.debug({ email, error: error.details[0].message }, 'Login validation failed');
+                this.logger.debug(
+                    { email, error: error.details[0].message },
+                    'Login validation failed'
+                );
                 return { error: error.details[0].message };
             }
 
@@ -83,7 +92,10 @@ module.exports = class Admin {
 
             const isPasswordValid = await admin.comparePassword(password);
             if (!isPasswordValid) {
-                this.logger.warn({ email, adminId: admin._id }, 'Login attempt with invalid password');
+                this.logger.warn(
+                    { email, adminId: admin._id },
+                    'Login attempt with invalid password'
+                );
                 return { error: 'Invalid credentials' };
             }
 
@@ -100,7 +112,7 @@ module.exports = class Admin {
                 sessionId: require('nanoid').nanoid()
             });
 
-            this.logger.info({ adminId: admin._id, email, role: admin.role }, 'Admin logged in successfully');
+            this.logger.info({ adminId: admin._id, email }, 'Admin logged in successfully');
 
             return {
                 admin: {
@@ -170,11 +182,16 @@ module.exports = class Admin {
             }
 
             if (__auth.role !== 'superadmin' && __auth.userId !== adminId) {
-                this.logger.warn({ requesterId: __auth.userId, targetAdminId: adminId }, 'Unauthorized admin access attempt');
+                this.logger.warn(
+                    { requesterId: __auth.userId, targetAdminId: adminId },
+                    'Unauthorized admin access attempt'
+                );
                 return { error: 'Unauthorized access' };
             }
 
-            const admin = await this.AdminModel.findOne({ _id: adminId, deletedAt: null }).select('-password').lean();
+            const admin = await this.AdminModel.findOne({ _id: adminId, deletedAt: null })
+                .select('-password')
+                .lean();
             if (!admin) {
                 this.logger.debug({ adminId }, 'Admin not found');
                 return { error: 'Admin not found', code: 404 };
@@ -182,7 +199,7 @@ module.exports = class Admin {
 
             this.logger.debug({ adminId }, 'Admin fetched successfully');
 
-            return { 
+            return {
                 admin: {
                     id: admin._id,
                     email: admin.email,

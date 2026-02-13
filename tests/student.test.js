@@ -4,7 +4,6 @@ const {
     mockConfig,
     mockMongoModels,
     createSuperadmin,
-    createSchoolAdmin,
     createSchool,
     createClassroom,
     createStudent
@@ -24,7 +23,7 @@ describe('Student Manager', () => {
             logger: mockLogger,
             mongoModels: mockMongoModels
         });
-        
+
         superadmin = await createSuperadmin();
         school = await createSchool({ createdBy: superadmin._id });
         classroom = await createClassroom(school._id, {
@@ -39,15 +38,17 @@ describe('Student Manager', () => {
             const result = await studentManager.enroll({
                 schoolId: school._id.toString(),
                 classroomId: classroom._id.toString(),
-                students: [{
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    dateOfBirth: new Date('2020-06-01'),
-                    gender: 'male',
-                    address: '123 Student St',
-                    guardianName: 'Parent Name',
-                    guardianPhone: '9876543210'
-                }],
+                students: [
+                    {
+                        firstName: 'John',
+                        lastName: 'Doe',
+                        dateOfBirth: new Date('2020-06-01'),
+                        gender: 'male',
+                        address: '123 Student St',
+                        guardianName: 'Parent Name',
+                        guardianPhone: '9876543210'
+                    }
+                ],
                 __schoolAdmin: { role: 'superadmin', schoolId: school._id.toString() }
             });
 
@@ -132,15 +133,17 @@ describe('Student Manager', () => {
             const result = await studentManager.enroll({
                 schoolId: school._id.toString(),
                 classroomId: classroom._id.toString(),
-                students: [{
-                    firstName: 'Too Young',
-                    lastName: 'Student',
-                    dateOfBirth: new Date('2022-01-01'), // Too young
-                    gender: 'male',
-                    address: '123 St',
-                    guardianName: 'Parent',
-                    guardianPhone: '1111111111'
-                }],
+                students: [
+                    {
+                        firstName: 'Too Young',
+                        lastName: 'Student',
+                        dateOfBirth: new Date('2022-01-01'), // Too young
+                        gender: 'male',
+                        address: '123 St',
+                        guardianName: 'Parent',
+                        guardianPhone: '1111111111'
+                    }
+                ],
                 __schoolAdmin: { role: 'superadmin', schoolId: school._id.toString() }
             });
 
@@ -153,15 +156,17 @@ describe('Student Manager', () => {
             const result = await studentManager.enroll({
                 schoolId: school._id.toString(),
                 classroomId: classroom._id.toString(),
-                students: [{
-                    firstName: 'Too Old',
-                    lastName: 'Student',
-                    dateOfBirth: new Date('2010-01-01'), // Too old
-                    gender: 'male',
-                    address: '123 St',
-                    guardianName: 'Parent',
-                    guardianPhone: '1111111111'
-                }],
+                students: [
+                    {
+                        firstName: 'Too Old',
+                        lastName: 'Student',
+                        dateOfBirth: new Date('2010-01-01'), // Too old
+                        gender: 'male',
+                        address: '123 St',
+                        guardianName: 'Parent',
+                        guardianPhone: '1111111111'
+                    }
+                ],
                 __schoolAdmin: { role: 'superadmin', schoolId: school._id.toString() }
             });
 

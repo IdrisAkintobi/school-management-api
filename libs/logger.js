@@ -35,7 +35,7 @@ const logger = pino({
     level: process.env.LOG_LEVEL || (isDevelopment ? 'debug' : 'info'),
     transport: getTransport(),
     formatters: {
-        level: (label) => {
+        level: label => {
             return { level: label };
         }
     },
@@ -51,20 +51,32 @@ const logger = pino({
             'refreshToken',
             'authorization',
             'cookie',
+            'email',
             '*.password',
             '*.token',
             '*.accessToken',
             '*.refreshToken',
+            '*.email',
             'req.headers.authorization',
             'req.headers.cookie',
             'res.headers["set-cookie"]'
         ],
-        censor: '[REDACTED]'
+        censor: (value, path) => {
+            // Custom censor function for emails
+            if (path.includes('email') && typeof value === 'string' && value.includes('@')) {
+                const [local, domain] = value.split('@');
+                if (local.length > 2) {
+                    return `${local.substring(0, 2)}***@${domain}`;
+                }
+                return `**@${domain}`;
+            }
+            return '[REDACTED]';
+        }
     }
 });
 
 // Helper to redact email addresses in log data
-logger.redactEmail = (email) => {
+logger.redactEmail = email => {
     if (!email || typeof email !== 'string' || !email.includes('@')) {
         return email;
     }
@@ -76,11 +88,11 @@ logger.redactEmail = (email) => {
 };
 
 // Helper to redact PII in objects before logging
-logger.sanitize = (obj) => {
+logger.sanitize = obj => {
     if (!obj || typeof obj !== 'object') return obj;
-    
+
     const sanitized = Array.isArray(obj) ? [...obj] : { ...obj };
-    
+
     for (const key in sanitized) {
         if (key === 'email' && typeof sanitized[key] === 'string') {
             sanitized[key] = logger.redactEmail(sanitized[key]);
@@ -90,7 +102,7 @@ logger.sanitize = (obj) => {
             sanitized[key] = logger.sanitize(sanitized[key]);
         }
     }
-    
+
     return sanitized;
 };
 

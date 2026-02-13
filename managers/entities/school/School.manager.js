@@ -13,7 +13,7 @@ module.exports = class School {
         this.StudentModel = mongoModels.student;
         this.ClassroomModel = mongoModels.classroom;
         this.SchoolModel = mongoModels.school;
-        
+
         this.httpExposed = [
             'post=create',
             'patch=update',
@@ -27,16 +27,21 @@ module.exports = class School {
     async create({ name, address, phone, email, principal, establishedYear, __superadmin }) {
         try {
             const { error } = this.validators.create.validate({
-                name, address, phone, email, principal, establishedYear
+                name,
+                address,
+                phone,
+                email,
+                principal,
+                establishedYear
             });
             if (error) return { error: error.details[0].message };
 
-            const existingSchool = await this.SchoolModel.findOne({ 
-                name, 
+            const existingSchool = await this.SchoolModel.findOne({
+                name,
                 address,
                 deletedAt: null
             });
-            
+
             if (existingSchool) {
                 return { error: 'School with this name and address already exists' };
             }
@@ -65,10 +70,27 @@ module.exports = class School {
         }
     }
 
-    async update({ schoolId, name, address, phone, email, principal, establishedYear, isActive, __superadmin }) {
+    async update({
+        schoolId,
+        name,
+        address,
+        phone,
+        email,
+        principal,
+        establishedYear,
+        isActive,
+        __superadmin
+    }) {
         try {
             const { error } = this.validators.update.validate({
-                schoolId, name, address, phone, email, principal, establishedYear, isActive
+                schoolId,
+                name,
+                address,
+                phone,
+                email,
+                principal,
+                establishedYear,
+                isActive
             });
             if (error) return { error: error.details[0].message };
 
@@ -90,12 +112,14 @@ module.exports = class School {
             if (establishedYear !== undefined) updateData.establishedYear = establishedYear;
             if (isActive !== undefined) updateData.isActive = isActive;
 
-            const updatedSchool = await this.SchoolModel.findByIdAndUpdate(
-                schoolId,
-                updateData,
-                { new: true, runValidators: true }
+            const updatedSchool = await this.SchoolModel.findByIdAndUpdate(schoolId, updateData, {
+                new: true,
+                runValidators: true
+            });
+            this.logger.info(
+                { schoolId, updates: Object.keys(updateData) },
+                'School updated successfully'
             );
-            this.logger.info({ schoolId, updates: Object.keys(updateData) }, 'School updated successfully');
 
             return { school: updatedSchool };
         } catch (err) {
@@ -170,12 +194,18 @@ module.exports = class School {
                 return { error: 'Invalid school ID' };
             }
 
-            const classroomCount = await this.ClassroomModel.countDocuments({ schoolId, deletedAt: null });
+            const classroomCount = await this.ClassroomModel.countDocuments({
+                schoolId,
+                deletedAt: null
+            });
             if (classroomCount > 0) {
                 return { error: 'Cannot delete school with active classrooms' };
             }
 
-            const studentCount = await this.StudentModel.countDocuments({ schoolId, deletedAt: null });
+            const studentCount = await this.StudentModel.countDocuments({
+                schoolId,
+                deletedAt: null
+            });
             if (studentCount > 0) {
                 return { error: 'Cannot delete school with active students' };
             }
@@ -222,7 +252,10 @@ module.exports = class School {
                 { deletedAt: null },
                 { new: true }
             );
-            this.logger.info({ schoolId, name: restoredSchool.name }, 'School restored successfully');
+            this.logger.info(
+                { schoolId, name: restoredSchool.name },
+                'School restored successfully'
+            );
 
             return { school: restoredSchool, message: 'School restored successfully' };
         } catch (err) {

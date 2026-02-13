@@ -3,31 +3,48 @@ const mongoose = require('mongoose');
 
 module.exports = class Classroom {
     constructor({ cache, config, cortex, logger, mongoModels } = {}) {
-            this.config = config;
-            this.cortex = cortex;
-            this.cache = cache;
-            this.logger = logger;
-            this.validators = validators;
+        this.config = config;
+        this.cortex = cortex;
+        this.cache = cache;
+        this.logger = logger;
+        this.validators = validators;
 
-            // Injected models
-            this.StudentModel = mongoModels.student;
-            this.ClassroomModel = mongoModels.classroom;
-            this.SchoolModel = mongoModels.school;
+        // Injected models
+        this.StudentModel = mongoModels.student;
+        this.ClassroomModel = mongoModels.classroom;
+        this.SchoolModel = mongoModels.school;
 
-            this.httpExposed = [
-                'post=create',
-                'patch=update',
-                'patch=restore',
-                'get=list',
-                'get=getById',
-                'delete=delete'
-            ];
-        }
+        this.httpExposed = [
+            'post=create',
+            'patch=update',
+            'patch=restore',
+            'get=list',
+            'get=getById',
+            'delete=delete'
+        ];
+    }
 
-    async create({ schoolId, name, grade, section, capacity, minAge, maxAge, resources, __schoolAdmin }) {
+    async create({
+        schoolId,
+        name,
+        grade,
+        section,
+        capacity,
+        minAge,
+        maxAge,
+        resources,
+        __schoolAdmin
+    }) {
         try {
             const { error } = this.validators.create.validate({
-                schoolId, name, grade, section, capacity, minAge, maxAge, resources
+                schoolId,
+                name,
+                grade,
+                section,
+                capacity,
+                minAge,
+                maxAge,
+                resources
             });
             if (error) return { error: error.details[0].message };
 
@@ -56,23 +73,50 @@ module.exports = class Classroom {
             });
 
             await classroom.save();
-            this.logger.info({ classroomId: classroom._id, schoolId, name }, 'Classroom created successfully');
+            this.logger.info(
+                { classroomId: classroom._id, schoolId, name },
+                'Classroom created successfully'
+            );
 
             return { classroom };
         } catch (err) {
             if (err.code === 11000) {
-                this.logger.warn({ schoolId, name, grade, section }, 'Duplicate classroom creation attempt');
-                return { error: 'Classroom with this name, grade, and section already exists in this school' };
+                this.logger.warn(
+                    { schoolId, name, grade, section },
+                    'Duplicate classroom creation attempt'
+                );
+                return {
+                    error: 'Classroom with this name, grade, and section already exists in this school'
+                };
             }
             this.logger.error({ error: err.message, schoolId, name }, 'Failed to create classroom');
             return { error: 'Failed to create classroom' };
         }
     }
 
-    async update({ classroomId, name, grade, section, capacity, minAge, maxAge, resources, isActive, __schoolAdmin }) {
+    async update({
+        classroomId,
+        name,
+        grade,
+        section,
+        capacity,
+        minAge,
+        maxAge,
+        resources,
+        isActive,
+        __schoolAdmin
+    }) {
         try {
             const { error } = this.validators.update.validate({
-                classroomId, name, grade, section, capacity, minAge, maxAge, resources, isActive
+                classroomId,
+                name,
+                grade,
+                section,
+                capacity,
+                minAge,
+                maxAge,
+                resources,
+                isActive
             });
             if (error) return { error: error.details[0].message };
 
@@ -80,17 +124,25 @@ module.exports = class Classroom {
                 return { error: 'Invalid classroom ID' };
             }
 
-            const classroom = await this.ClassroomModel.findOne({ _id: classroomId, deletedAt: null });
+            const classroom = await this.ClassroomModel.findOne({
+                _id: classroomId,
+                deletedAt: null
+            });
             if (!classroom) {
                 return { error: 'Classroom not found', code: 404 };
             }
 
-            if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== classroom.schoolId.toString()) {
+            if (
+                __schoolAdmin.role === 'school_admin' &&
+                __schoolAdmin.schoolId !== classroom.schoolId.toString()
+            ) {
                 return { error: 'Classroom not found', code: 404 };
             }
 
             if (capacity !== undefined && capacity < classroom.currentEnrollment) {
-                return { error: `Cannot reduce capacity below current enrollment (${classroom.currentEnrollment})` };
+                return {
+                    error: `Cannot reduce capacity below current enrollment (${classroom.currentEnrollment})`
+                };
             }
 
             const updateData = {};
@@ -108,7 +160,10 @@ module.exports = class Classroom {
                 updateData,
                 { new: true, runValidators: true }
             );
-            this.logger.info({ classroomId, updates: Object.keys(updateData) }, 'Classroom updated successfully');
+            this.logger.info(
+                { classroomId, updates: Object.keys(updateData) },
+                'Classroom updated successfully'
+            );
 
             return { classroom: updatedClassroom };
         } catch (err) {
@@ -125,7 +180,7 @@ module.exports = class Classroom {
             limit = parseInt(limit) || 10;
 
             const query = {};
-            
+
             if (schoolId) {
                 if (!mongoose.Types.ObjectId.isValid(schoolId)) {
                     return { error: 'Invalid school ID' };
@@ -172,12 +227,18 @@ module.exports = class Classroom {
                 return { error: 'Invalid classroom ID' };
             }
 
-            const classroom = await this.ClassroomModel.findOne({ _id: classroomId, deletedAt: null }).populate('schoolId', 'name');
+            const classroom = await this.ClassroomModel.findOne({
+                _id: classroomId,
+                deletedAt: null
+            }).populate('schoolId', 'name');
             if (!classroom) {
                 return { error: 'Classroom not found', code: 404 };
             }
 
-            if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== classroom.schoolId._id.toString()) {
+            if (
+                __schoolAdmin.role === 'school_admin' &&
+                __schoolAdmin.schoolId !== classroom.schoolId._id.toString()
+            ) {
                 return { error: 'Classroom not found', code: 404 };
             }
 
@@ -196,22 +257,34 @@ module.exports = class Classroom {
                 return { error: 'Invalid classroom ID' };
             }
 
-            const classroom = await this.ClassroomModel.findOne({ _id: classroomId, deletedAt: null });
+            const classroom = await this.ClassroomModel.findOne({
+                _id: classroomId,
+                deletedAt: null
+            });
             if (!classroom) {
                 return { error: 'Classroom not found', code: 404 };
             }
 
-            if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== classroom.schoolId.toString()) {
+            if (
+                __schoolAdmin.role === 'school_admin' &&
+                __schoolAdmin.schoolId !== classroom.schoolId.toString()
+            ) {
                 return { error: 'Classroom not found', code: 404 };
             }
 
-            const studentCount = await this.StudentModel.countDocuments({ classroomId, deletedAt: null });
+            const studentCount = await this.StudentModel.countDocuments({
+                classroomId,
+                deletedAt: null
+            });
             if (studentCount > 0) {
                 return { error: 'Cannot delete classroom with active students' };
             }
 
             await this.ClassroomModel.findByIdAndUpdate(classroomId, { deletedAt: new Date() });
-            this.logger.info({ classroomId, name: classroom.name }, 'Classroom deleted successfully');
+            this.logger.info(
+                { classroomId, name: classroom.name },
+                'Classroom deleted successfully'
+            );
 
             return { message: 'Classroom deleted successfully' };
         } catch (err) {
@@ -234,7 +307,10 @@ module.exports = class Classroom {
                 return { error: 'Classroom not found', code: 404 };
             }
 
-            if (__schoolAdmin.role === 'school_admin' && __schoolAdmin.schoolId !== classroom.schoolId.toString()) {
+            if (
+                __schoolAdmin.role === 'school_admin' &&
+                __schoolAdmin.schoolId !== classroom.schoolId.toString()
+            ) {
                 return { error: 'Classroom not found', code: 404 };
             }
 
@@ -242,7 +318,10 @@ module.exports = class Classroom {
                 return { error: 'Classroom is not deleted' };
             }
 
-            const school = await this.SchoolModel.findOne({ _id: classroom.schoolId, deletedAt: null });
+            const school = await this.SchoolModel.findOne({
+                _id: classroom.schoolId,
+                deletedAt: null
+            });
             if (!school) {
                 return { error: 'Cannot restore: School is deleted or not found', code: 404 };
             }
@@ -252,7 +331,10 @@ module.exports = class Classroom {
                 { deletedAt: null },
                 { new: true }
             );
-            this.logger.info({ classroomId, name: restoredClassroom.name }, 'Classroom restored successfully');
+            this.logger.info(
+                { classroomId, name: restoredClassroom.name },
+                'Classroom restored successfully'
+            );
 
             return { classroom: restoredClassroom, message: 'Classroom restored successfully' };
         } catch (err) {

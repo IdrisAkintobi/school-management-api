@@ -21,7 +21,7 @@ describe('School Manager', () => {
             logger: mockLogger,
             mongoModels: mockMongoModels
         });
-        
+
         superadmin = await createSuperadmin();
     });
 
@@ -206,6 +206,5 @@ describe('School Manager', () => {
             expect(result.error).toBeUndefined();
             expect(result.message).toBe('School restored successfully');
         });
-
     });
 });

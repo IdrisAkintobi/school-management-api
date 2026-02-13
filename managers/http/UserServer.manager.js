@@ -1,25 +1,25 @@
-const http              = require('http');
-const express           = require('express');
-const cors              = require('cors');
-const helmet            = require('helmet');
-const mongoSanitize     = require('express-mongo-sanitize');
-const rateLimit         = require('express-rate-limit');
-const app               = express();
+const http = require('http');
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const rateLimit = require('express-rate-limit');
+const app = express();
 
 module.exports = class UserServer {
-    constructor({config, managers}){
-        this.config        = config;
-        this.userApi       = managers.userApi;
+    constructor({ config, managers }) {
+        this.config = config;
+        this.userApi = managers.userApi;
     }
-    
-    use(args){
+
+    use(args) {
         app.use(args);
     }
 
-    run(){
+    run() {
         app.set('trust proxy', 1);
         app.use(helmet());
-        app.use(cors({origin: '*'}));
+        app.use(cors({ origin: '*' }));
         app.use(express.json({ limit: '10mb' }));
         app.use(express.urlencoded({ extended: true, limit: '10mb' }));
         app.use(mongoSanitize());
@@ -42,17 +42,19 @@ module.exports = class UserServer {
         app.use('/api/admin/login', authLimiter);
         app.use('/api/admin/register', authLimiter);
 
-        app.use((err, req, res, next) => {
-            console.error(err.stack)
-            res.status(500).send('Something broke!')
+        app.use((err, req, res, _next) => {
+            console.error(err.stack);
+            res.status(500).send('Something broke!');
         });
-        
+
         /** Register route handlers */
         app.all('/api/:moduleName/:fnName', this.userApi.mw);
 
         let server = http.createServer(app);
         server.listen(this.config.dotEnv.USER_PORT, () => {
-            console.log(`${(this.config.dotEnv.SERVICE_NAME).toUpperCase()} is running on port: ${this.config.dotEnv.USER_PORT}`);
+            console.log(
+                `${this.config.dotEnv.SERVICE_NAME.toUpperCase()} is running on port: ${this.config.dotEnv.USER_PORT}`
+            );
         });
     }
-}
+};

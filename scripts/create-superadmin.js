@@ -8,27 +8,30 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-const question = (query) => new Promise((resolve) => rl.question(query, resolve));
+const question = query => new Promise(resolve => rl.question(query, resolve));
 
 async function createSuperadmin() {
     try {
         const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/school-management';
-        
+
         await mongoose.connect(mongoUri, {
             useNewUrlParser: true,
-            useUnifiedTopology: true,
+            useUnifiedTopology: true
         });
 
         console.log('Connected to MongoDB');
 
-        const AdminModel = mongoose.model('Admin', new mongoose.Schema({
-            email: String,
-            password: String,
-            role: String,
-            name: String,
-            isActive: Boolean,
-            schoolId: mongoose.Schema.Types.ObjectId
-        }));
+        const AdminModel = mongoose.model(
+            'Admin',
+            new mongoose.Schema({
+                email: String,
+                password: String,
+                role: String,
+                name: String,
+                isActive: Boolean,
+                schoolId: mongoose.Schema.Types.ObjectId
+            })
+        );
 
         const email = await question('Enter superadmin email: ');
         const password = await question('Enter superadmin password: ');

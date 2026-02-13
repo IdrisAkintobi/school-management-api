@@ -17,7 +17,9 @@ const validators = {
         resources: Joi.array().items(resourceSchema)
     }).custom((value, helpers) => {
         if (value.minAge && value.maxAge && value.minAge > value.maxAge) {
-            return helpers.error('any.invalid', { message: 'minAge cannot be greater than maxAge' });
+            return helpers.error('any.invalid', {
+                message: 'minAge cannot be greater than maxAge'
+            });
         }
         return value;
     }),
@@ -34,7 +36,9 @@ const validators = {
         isActive: Joi.boolean()
     }).custom((value, helpers) => {
         if (value.minAge && value.maxAge && value.minAge > value.maxAge) {
-            return helpers.error('any.invalid', { message: 'minAge cannot be greater than maxAge' });
+            return helpers.error('any.invalid', {
+                message: 'minAge cannot be greater than maxAge'
+            });
         }
         return value;
     }),

@@ -9,8 +9,8 @@ const mockLogger = {
     error: jest.fn(),
     warn: jest.fn(),
     debug: jest.fn(),
-    sanitize: (obj) => obj,
-    redactEmail: (email) => email
+    sanitize: obj => obj,
+    redactEmail: email => email
 };
 
 // Mock config
@@ -26,8 +26,8 @@ const mockConfig = {
 // Mock managers
 const createMockManagers = () => ({
     token: {
-        genLongToken: jest.fn(({ userId, userKey }) => 'mock-long-token'),
-        genShortToken: jest.fn(({ userId, userKey, role, schoolId, sessionId }) => 'mock-short-token')
+        genLongToken: jest.fn(() => 'mock-long-token'),
+        genShortToken: jest.fn(() => 'mock-short-token')
     }
 });
 
@@ -111,12 +111,12 @@ async function createStudent(schoolId, classroomId, data = {}) {
         guardianPhone: data.guardianPhone || '9876543210'
     });
     await student.save();
-    
+
     // Update classroom enrollment
     await ClassroomModel.findByIdAndUpdate(classroomId, {
         $inc: { currentEnrollment: 1 }
     });
-    
+
     return student;
 }
 

@@ -1,32 +1,28 @@
 const utils = require('../libs/utils');
 const { performance } = require('perf_hooks');
 
-const keyCheck = (key) => {
+const keyCheck = key => {
     if (!key) throw Error('Cache Key is missing');
-}
+};
 
-
-
-
-module.exports = ({ prefix, url}) => {
-
+module.exports = ({ prefix, url }) => {
     if (!prefix || !url) throw Error('missing in memory arguments');
-    
+
     /** creating inmemory client */
     const redisClient = require('./redis-client').createClient({
-        prefix, url
+        prefix,
+        url
     });
-
 
     return {
         search: {
             /**
-             * 
-             * @param {string} index reperesent the index name ex: 'object:index' 
+             *
+             * @param {string} index reperesent the index name ex: 'object:index'
              */
-            createIndex: async ({index, prefix, schema })=>{
-                if(!schema || !prefix || !index){
-                    throw Error('missing args')
+            createIndex: async ({ index, prefix, schema }) => {
+                if (!schema || !prefix || !index) {
+                    throw Error('missing args');
                 }
                 /** check if index already exists */
                 let indices = await redisClient.call('FT._LIST');
@@ -40,92 +36,102 @@ module.exports = ({ prefix, url}) => {
 
                 let schemaArgs = [];
                 let schemaKeys = Object.keys(schema);
-                for(let i=0; i<schemaKeys.length; i++){
+                for (let i = 0; i < schemaKeys.length; i++) {
                     let skey = schemaKeys[i];
                     schemaArgs.push(skey);
                     let fieldType = schema[skey].store;
                     schemaArgs.push(fieldType);
-                    if(schema[skey].sortable){
+                    if (schema[skey].sortable) {
                         schemaArgs.push('SORTABLE');
                     }
                 }
 
-                const args = ['FT.CREATE', index, 'ON', 'hash', 'PREFIX', '1', prefix, 'SCHEMA', ...schemaArgs];
-                await redisClient.call(...args)
+                const args = [
+                    'FT.CREATE',
+                    index,
+                    'ON',
+                    'hash',
+                    'PREFIX',
+                    '1',
+                    prefix,
+                    'SCHEMA',
+                    ...schemaArgs
+                ];
+                await redisClient.call(...args);
             },
 
-            find: async({query, searchIndex, populate, offset, limit})=>{
-                const startTime = performance.now()
+            find: async ({ query, searchIndex, populate, offset, limit }) => {
+                const startTime = performance.now();
                 let res = [];
                 offset = offset || 0;
                 limit = limit || 50;
                 try {
                     let args = ['FT.SEARCH', searchIndex, query, 'LIMIT', offset, limit];
-                    if(populate){
+                    if (populate) {
                         args = args.concat(['RETURN', populate.length], populate);
                     }
                     console.log(`search -->`, args.join(' '));
                     res = await redisClient.call(...args);
-                } catch(error){
+                } catch (error) {
                     console.log(error);
-                    return {error: error.message || 'unable to execute'};
+                    return { error: error.message || 'unable to execute' };
                 }
                 let [count, ...foundKeysAndSightings] = res;
-                let foundSightings = foundKeysAndSightings.filter((entry, index) => index % 2 !== 0)
+                let foundSightings = foundKeysAndSightings.filter(
+                    (entry, index) => index % 2 !== 0
+                );
                 let sightings = foundSightings.map(sightingArray => {
-                  let keys = sightingArray.filter((_, index) => index % 2 === 0)
-                  let values = sightingArray.filter((_, index) => index % 2 !== 0)
-                  return keys.reduce((sighting, key, index) => {
-                    sighting[key] = values[index]
-                    return sighting
-                  }, {})
-                })
+                    let keys = sightingArray.filter((_, index) => index % 2 === 0);
+                    let values = sightingArray.filter((_, index) => index % 2 !== 0);
+                    return keys.reduce((sighting, key, index) => {
+                        sighting[key] = values[index];
+                        return sighting;
+                    }, {});
+                });
                 const endTime = performance.now();
-                return { count, docs: sightings, time:  `${Math.trunc(endTime - startTime)}ms`};
+                return { count, docs: sightings, time: `${Math.trunc(endTime - startTime)}ms` };
             }
-
-            
         },
         hyperlog: {
-            add: async({key, items})=>{
+            add: async ({ key, items }) => {
                 let args = [key].concat(items);
                 try {
                     await redisClient.call('PFADD', ...args);
-                } catch(err){
+                } catch (err) {
                     console.log(err);
                 }
             },
-            count: async({key})=>{
+            count: async ({ key }) => {
                 let count = 0;
                 try {
                     count = await redisClient.call('PFCOUNT', key);
-                } catch(err){
+                } catch (err) {
                     console.log(err);
                 }
                 return count;
             },
-            merge: async({keys})=>{
-                let count = 0; 
+            merge: async ({ keys }) => {
+                let count = 0;
                 try {
                     count = await redisClient.call('PFMERGE', ...keys);
-                } catch(err){
+                } catch (err) {
                     console.log(err);
                 }
                 return count;
             }
         },
         hash: {
-            set: async({key, data})=>{
+            set: async ({ key, data }) => {
                 let keys = Object.keys(data);
                 let args = [key];
-                for(let i=0; i<keys.length; i++){
+                for (let i = 0; i < keys.length; i++) {
                     args.push(keys[i]);
                     args.push(data[keys[i]]);
                 }
                 let result = await redisClient.hset(...args);
                 return result;
             },
-            remove: async({key, fields})=>{
+            remove: async ({ key, fields }) => {
                 let args = [key];
                 args = args.concat(fields);
                 let result = await redisClient.hdel(...args);
@@ -143,37 +149,36 @@ module.exports = ({ prefix, url}) => {
                 let result = await redisClient.hset(key, fieldKey, data);
                 return result;
             },
-    
+
             getField: async ({ key, fieldKey }) => {
                 let result = await redisClient.hget(key, fieldKey);
                 return result;
             },
-            
-            
+
             getFields: async ({ key, fields }) => {
                 let result = await redisClient.hmget(key, ...fields);
                 /** resuts are retruned as an array of values with the same order of the fields */
-                if(result){
+                if (result) {
                     let obj = {};
-                    for(let i=0; i<fields.length; i++){
-                        obj[fields[i]]=result[i];
+                    for (let i = 0; i < fields.length; i++) {
+                        obj[fields[i]] = result[i];
                     }
                     return obj;
-                } 
+                }
                 return result;
-            },
+            }
         },
         key: {
             expire: async ({ key, expire }) => {
                 let result = await redisClient.expire(key, expire);
                 return result;
             },
-    
+
             exists: async ({ key }) => {
                 let result = await redisClient.exists(key);
-                return (result === 1);
+                return result === 1;
             },
-    
+
             delete: async ({ key }) => {
                 keyCheck(key);
                 let result = false;
@@ -191,16 +196,16 @@ module.exports = ({ prefix, url}) => {
                 keyCheck(key);
                 let result = false;
                 let args = [key, data];
-                if (ttl) args = args.concat(["EX", ttl]);
+                if (ttl) args = args.concat(['EX', ttl]);
                 try {
                     await redisClient.set(...args);
                     result = true;
                 } catch (err) {
-                    console.log('failed to save to reddit')
+                    console.log('failed to save to reddit');
                 }
                 return result;
             },
-    
+
             get: async ({ key }) => {
                 keyCheck(key);
                 let result = '';
@@ -211,8 +216,7 @@ module.exports = ({ prefix, url}) => {
                 }
                 /** redis returned string 'null' when the key is not found */
                 return result;
-            },
-    
+            }
         },
         set: {
             add: async ({ key, arr }) => {
@@ -229,89 +233,87 @@ module.exports = ({ prefix, url}) => {
             get: async ({ key }) => {
                 let result = await redisClient.smembers(key);
                 return result;
-            },
+            }
         },
         sorted: {
-            get: async ({ sort, key, withScores=false, start, end, limit}) => {
+            get: async ({ sort, key, withScores = false, start, end, _limit }) => {
                 keyCheck(key);
                 let res = null;
-                if(!start)start=0;
-                if(!end)end=50;
+                if (!start) start = 0;
+                if (!end) end = 50;
                 let min = start;
                 let max = end;
-                let args = ["ZRANGE"];
+                let args = ['ZRANGE'];
                 args = args.concat([key, min, max]);
-                if(!sort)sort='H2L';
-                if(sort.toUpperCase()=="H2L"){
-                    args.push("REV");
-                } 
-                if(withScores)args.push("WITHSCORES");
+                if (!sort) sort = 'H2L';
+                if (sort.toUpperCase() == 'H2L') {
+                    args.push('REV');
+                }
+                if (withScores) args.push('WITHSCORES');
                 try {
                     res = await redisClient.call(...args);
-                } catch(err){
-                    return {error: err.message?err.message:err};
+                } catch (err) {
+                    return { error: err.message ? err.message : err };
                 }
-                if(withScores)res = utils.arrayToObj(res);
-                return  res|| [];
+                if (withScores) res = utils.arrayToObj(res);
+                return res || [];
             },
-            update: async({key, scores})=>{
+            update: async ({ key, scores }) => {
                 let args = [key].concat(scores);
                 try {
                     await redisClient.call('ZADD', ...args);
-                } catch(err){
+                } catch (err) {
                     console.log(err);
                 }
             },
-            addIfNotExists: async({key, scores})=>{
+            addIfNotExists: async ({ key, scores }) => {
                 let args = [key, 'NX'].concat(scores);
                 try {
                     await redisClient.call('ZADD', ...args);
-                } catch(err){
+                } catch (err) {
                     console.log(err);
                 }
             },
-            set: async ({key, scores})=>{
+            set: async ({ key, scores }) => {
                 let args = [key].concat(scores);
                 try {
                     await redisClient.call('ZADD', ...args);
-                } catch(err){
+                } catch (err) {
                     console.log(err);
                 }
             },
-            incrBy: async({key, field, score})=>{
+            incrBy: async ({ key, field, score }) => {
                 let args = [key, score, field];
                 try {
                     await redisClient.call('ZINCRBY', ...args);
-                } catch(err){
+                } catch (err) {
                     console.log(err);
                 }
             },
-            remove: async({key, field})=>{
+            remove: async ({ key, field }) => {
                 let args = [key, field];
                 try {
                     await redisClient.call('ZREM', ...args);
-                } catch(err){
+                } catch (err) {
                     console.log(err);
                 }
             },
-            getRandom: async({key, count})=>{
+            getRandom: async ({ key, count }) => {
                 let args = [key, count];
                 try {
                     await redisClient.call('ZRANDMEMBER', ...args);
-                } catch(err){
+                } catch (err) {
                     console.log(err);
                 }
-            },
-
-
+            }
         }
-    }
+    };
 
     // return {
     //     getTimeSeries: async({
     //         key
     //     })=>{
- 
+
     //         keyCheck(key);
     //         let result = [];
     //         key = prefix+":"+key;
@@ -339,7 +341,7 @@ module.exports = ({ prefix, url}) => {
     //     createTimeSeries: async({
     //         key,
     //         retention,
-    //         labels, //key value 
+    //         labels, //key value
     //     })=>{
     //         try {
     //             let labelsArr = [];
@@ -350,7 +352,6 @@ module.exports = ({ prefix, url}) => {
     //         }
     //     },
 
-       
     //     getMulti: async ({ keys }) => {
     //         if (!keys || keys.length == 0) return;
     //         let results = await redisClient.mget(keys);
@@ -368,9 +369,6 @@ module.exports = ({ prefix, url}) => {
     //         let result = await redisClient.set(...args);
     //         return result;
     //     },
-        
-
-
 
     //     pushOne: async ({ key, data }) => {
     //         keyCheck(key);
@@ -398,7 +396,7 @@ module.exports = ({ prefix, url}) => {
     //         } catch(err){
     //             console.log(err);
     //         }
-            
+
     //         return r;
     //     },
 
@@ -471,7 +469,7 @@ module.exports = ({ prefix, url}) => {
     //             console.log(err);
     //             console.log(`failed to getLowestScore for key ${key}`);
     //         }
-            
+
     //         return result;
     //         // ZRANGEBYSCORE myset -inf +inf withScoresS LIMIT 0 1
     //     },
@@ -517,6 +515,5 @@ module.exports = ({ prefix, url}) => {
     //         return result;
     //     },
 
-
     // }
-}
+};

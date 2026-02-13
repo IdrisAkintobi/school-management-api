@@ -4,7 +4,9 @@ const validators = {
     create: Joi.object({
         name: Joi.string().min(2).required(),
         address: Joi.string().allow(''),
-        phone: Joi.string().pattern(/^[0-9+\-\s()]+$/).allow(''),
+        phone: Joi.string()
+            .pattern(/^[0-9+\-\s()]+$/)
+            .allow(''),
         email: Joi.string().email().allow(''),
         principal: Joi.string().allow(''),
         establishedYear: Joi.number().integer().min(1800).max(new Date().getFullYear())
@@ -14,7 +16,9 @@ const validators = {
         schoolId: Joi.string().required(),
         name: Joi.string().min(2),
         address: Joi.string().allow(''),
-        phone: Joi.string().pattern(/^[0-9+\-\s()]+$/).allow(''),
+        phone: Joi.string()
+            .pattern(/^[0-9+\-\s()]+$/)
+            .allow(''),
         email: Joi.string().email().allow(''),
         principal: Joi.string().allow(''),
         establishedYear: Joi.number().integer().min(1800).max(new Date().getFullYear()),

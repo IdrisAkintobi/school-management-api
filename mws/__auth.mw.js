@@ -1,7 +1,7 @@
-module.exports = ({ meta, config, managers }) => {
+module.exports = ({ managers }) => {
     return ({ req, res, next }) => {
         const token = req.headers.authorization?.replace('Bearer ', '') || req.headers.token;
-        
+
         if (!token) {
             return managers.responseDispatcher.dispatch(res, {
                 ok: false,

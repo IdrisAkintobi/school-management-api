@@ -1,5 +1,4 @@
 const AdminManager = require('../managers/entities/admin/Admin.manager');
-const AdminModel = require('../managers/entities/admin/admin.schema');
 const {
     mockLogger,
     mockConfig,
@@ -43,7 +42,7 @@ describe('Admin Manager', () => {
 
         it('should register a school admin successfully', async () => {
             const school = await createSchool();
-            
+
             const result = await adminManager.register({
                 email: 'schooladmin@test.com',
                 password: 'Password123!',
@@ -100,7 +99,7 @@ describe('Admin Manager', () => {
 
     describe('login', () => {
         it('should login successfully with valid credentials', async () => {
-            const admin = await createSuperadmin({
+            await createSuperadmin({
                 email: 'login@test.com',
                 password: 'Password123!'
             });

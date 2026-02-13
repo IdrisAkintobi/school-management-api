@@ -23,7 +23,7 @@ describe('Classroom Manager', () => {
             logger: mockLogger,
             mongoModels: mockMongoModels
         });
-        
+
         superadmin = await createSuperadmin();
         school = await createSchool({ createdBy: superadmin._id });
     });
@@ -68,7 +68,9 @@ describe('Classroom Manager', () => {
                 __schoolAdmin: { role: 'superadmin', schoolId: school._id.toString() }
             });
 
-            expect(result.error).toBe('Classroom with this name, grade, and section already exists in this school');
+            expect(result.error).toBe(
+                'Classroom with this name, grade, and section already exists in this school'
+            );
         });
 
         it('should fail when minAge > maxAge', async () => {
@@ -85,8 +87,11 @@ describe('Classroom Manager', () => {
         });
 
         it('should fail when school admin creates classroom for another school', async () => {
-            const otherSchool = await createSchool({ name: 'Other School', address: 'Other Address' });
-            const schoolAdmin = await createSchoolAdmin(school._id);
+            const otherSchool = await createSchool({
+                name: 'Other School',
+                address: 'Other Address'
+            });
+            await createSchoolAdmin(school._id);
 
             const result = await classroomManager.create({
                 schoolId: otherSchool._id.toString(),
@@ -149,7 +154,10 @@ describe('Classroom Manager', () => {
         });
 
         it('should filter by school for school admin', async () => {
-            const otherSchool = await createSchool({ name: 'Other School', address: 'Other Address' });
+            const otherSchool = await createSchool({
+                name: 'Other School',
+                address: 'Other Address'
+            });
             await createClassroom(school._id);
             await createClassroom(otherSchool._id);
 
