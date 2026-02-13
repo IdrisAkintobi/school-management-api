@@ -42,13 +42,13 @@ module.exports = class UserServer {
         app.use('/api/admin/login', authLimiter);
         app.use('/api/admin/register', authLimiter);
 
+        /** Register route handlers */
+        app.all('/api/:moduleName/:fnName', this.userApi.mw);
+
         app.use((err, req, res, _next) => {
             console.error(err.stack);
             res.status(500).send('Something broke!');
         });
-
-        /** Register route handlers */
-        app.all('/api/:moduleName/:fnName', this.userApi.mw);
 
         let server = http.createServer(app);
         server.listen(this.config.dotEnv.USER_PORT, () => {

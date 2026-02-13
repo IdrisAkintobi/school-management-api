@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 const logger = require('../libs/logger');
-mongoose.Promise = global.Promise;
 
 module.exports = ({ uri }) => {
     //database connection
-    mongoose.connect(uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
+    mongoose.connect(uri);
 
     mongoose.connection.on('connected', function () {
         logger.info('MongoDB connection established');
@@ -21,10 +17,14 @@ module.exports = ({ uri }) => {
         logger.warn('MongoDB connection disconnected');
     });
 
-    process.on('SIGINT', function () {
-        mongoose.connection.close(function () {
+    process.on('SIGINT', async function () {
+        try {
+            await mongoose.connection.close();
             logger.info('MongoDB connection closed through app termination');
             process.exit(0);
-        });
+        } catch (err) {
+            logger.error({ error: err.message }, 'Error closing MongoDB connection');
+            process.exit(1);
+        }
     });
 };
