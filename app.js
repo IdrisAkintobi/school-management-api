@@ -1,6 +1,9 @@
 const config = require('./config/index.config.js');
+const logger = require('./libs/logger');
 const Cortex = require('ion-cortex');
 const ManagersLoader = require('./loaders/ManagersLoader.js');
+
+logger.info('Starting application');
 
 // Initialize MongoDB connection if URI is provided
 if (config.dotEnv.MONGO_URI) {
