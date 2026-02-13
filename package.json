@@ -12,8 +12,7 @@
         "test:coverage": "NODE_ENV=test jest --coverage --runInBand",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
-        "format": "prettier --write \"**/*.{js,json,md}\"",
-        "prepare": "husky install"
+        "format": "prettier --write \"**/*.{js,json,md}\""
     },
     "author": "",
     "license": "ISC",
