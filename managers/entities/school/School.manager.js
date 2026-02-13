@@ -2,7 +2,7 @@ const validators = require('./school.validators');
 const mongoose = require('mongoose');
 
 module.exports = class School {
-    constructor({ utils, cache, config, cortex, managers, logger, mongoModels } = {}) {
+    constructor({ cache, config, cortex, logger, mongoModels } = {}) {
         this.config = config;
         this.cortex = cortex;
         this.cache = cache;

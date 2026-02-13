@@ -1,6 +1,4 @@
-const logger = require('../libs/logger');
-
-module.exports = ({ meta, config, managers }) => {
+module.exports = ({ logger }) => {
     return ({ req, res, next }) => {
         const startTime = Date.now();
         

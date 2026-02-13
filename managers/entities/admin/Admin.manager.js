@@ -3,7 +3,7 @@ const validators = require('./admin.validators');
 const mongoose = require('mongoose');
 
 module.exports = class Admin {
-    constructor({ utils, cache, config, cortex, managers, logger, mongoModels } = {}) {
+    constructor({ cache, config, cortex, managers, logger, mongoModels } = {}) {
         this.config = config;
         this.cortex = cortex;
         this.cache = cache;
