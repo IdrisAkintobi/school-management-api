@@ -3,10 +3,11 @@ const validators = require('./admin.validators');
 const mongoose = require('mongoose');
 
 module.exports = class Admin {
-    constructor({ utils, cache, config, cortex, managers } = {}) {
+    constructor({ utils, cache, config, cortex, managers, logger } = {}) {
         this.config = config;
         this.cortex = cortex;
         this.cache = cache;
+        this.logger = logger;
         this.tokenManager = managers.token;
         this.validators = validators;
         
@@ -21,14 +22,19 @@ module.exports = class Admin {
     async register({ email, password, name, role, schoolId, __superadmin }) {
         try {
             const { error } = this.validators.register.validate({ email, password, name, role, schoolId });
-            if (error) return { error: error.details[0].message };
+            if (error) {
+                this.logger.debug({ email, role, error: error.details[0].message }, 'Admin registration validation failed');
+                return { error: error.details[0].message };
+            }
 
             if (role === 'school_admin' && !mongoose.Types.ObjectId.isValid(schoolId)) {
+                this.logger.warn({ email, schoolId }, 'Invalid school ID during admin registration');
                 return { error: 'Invalid school ID' };
             }
 
             const existingAdmin = await AdminModel.findOne({ email });
             if (existingAdmin) {
+                this.logger.warn({ email }, 'Attempted to register with existing email');
                 return { error: 'Email already registered' };
             }
 
@@ -41,6 +47,7 @@ module.exports = class Admin {
             });
 
             await admin.save();
+            this.logger.info({ adminId: admin._id, email, role }, 'Admin registered successfully');
 
             return {
                 admin: {
@@ -52,6 +59,7 @@ module.exports = class Admin {
                 }
             };
         } catch (err) {
+            this.logger.error({ error: err.message, email }, 'Admin registration failed');
             return { error: 'Registration failed' };
         }
     }
@@ -59,15 +67,20 @@ module.exports = class Admin {
     async login({ email, password }) {
         try {
             const { error } = this.validators.login.validate({ email, password });
-            if (error) return { error: error.details[0].message };
+            if (error) {
+                this.logger.debug({ email, error: error.details[0].message }, 'Login validation failed');
+                return { error: error.details[0].message };
+            }
 
             const admin = await AdminModel.findOne({ email, deletedAt: null });
             if (!admin) {
+                this.logger.warn({ email }, 'Login attempt with non-existent email');
                 return { error: 'Invalid credentials' };
             }
 
             const isPasswordValid = await admin.comparePassword(password);
             if (!isPasswordValid) {
+                this.logger.warn({ email, adminId: admin._id }, 'Login attempt with invalid password');
                 return { error: 'Invalid credentials' };
             }
 
@@ -84,6 +97,8 @@ module.exports = class Admin {
                 sessionId: require('nanoid').nanoid()
             });
 
+            this.logger.info({ adminId: admin._id, email, role: admin.role }, 'Admin logged in successfully');
+
             return {
                 admin: {
                     id: admin._id,
@@ -96,6 +111,7 @@ module.exports = class Admin {
                 shortToken
             };
         } catch (err) {
+            this.logger.error({ error: err.message, email }, 'Login failed');
             return { error: 'Login failed' };
         }
     }
@@ -114,6 +130,8 @@ module.exports = class Admin {
                 .lean();
 
             const total = await AdminModel.countDocuments({ deletedAt: null });
+
+            this.logger.debug({ page, limit, total }, 'Admins list fetched');
 
             const transformedAdmins = admins.map(admin => ({
                 id: admin._id,
@@ -136,6 +154,7 @@ module.exports = class Admin {
                 }
             };
         } catch (err) {
+            this.logger.error({ error: err.message }, 'Failed to fetch admins');
             return { error: 'Failed to fetch admins' };
         }
     }
@@ -143,17 +162,22 @@ module.exports = class Admin {
     async getById({ adminId, __auth }) {
         try {
             if (!mongoose.Types.ObjectId.isValid(adminId)) {
+                this.logger.debug({ adminId }, 'Invalid admin ID format');
                 return { error: 'Invalid admin ID' };
             }
 
             if (__auth.role !== 'superadmin' && __auth.userId !== adminId) {
+                this.logger.warn({ requesterId: __auth.userId, targetAdminId: adminId }, 'Unauthorized admin access attempt');
                 return { error: 'Unauthorized access' };
             }
 
             const admin = await AdminModel.findOne({ _id: adminId, deletedAt: null }).select('-password').lean();
             if (!admin) {
+                this.logger.debug({ adminId }, 'Admin not found');
                 return { error: 'Admin not found', code: 404 };
             }
+
+            this.logger.debug({ adminId }, 'Admin fetched successfully');
 
             return { 
                 admin: {
@@ -168,6 +192,7 @@ module.exports = class Admin {
                 }
             };
         } catch (err) {
+            this.logger.error({ error: err.message, adminId }, 'Failed to fetch admin');
             return { error: 'Failed to fetch admin' };
         }
     }

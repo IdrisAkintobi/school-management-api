@@ -1,20 +1,20 @@
-module.exports = ({ meta, config, managers }) =>{
+module.exports = ({ meta, config, managers, logger }) =>{
     return ({req, res, next})=>{
         const token = req.headers.authorization?.replace('Bearer ', '') || req.headers.token;
         
         if(!token){
-            console.log('token required but not found')
+            logger.warn({ headers: req.headers }, 'Short token required but not found');
             return managers.responseDispatcher.dispatch(res, {ok: false, code:401, errors: 'unauthorized'});
         }
         let decoded = null;
         try {
             decoded = managers.token.verifyShortToken({token});
             if(!decoded){
-                console.log('failed to decode-1')
+                logger.warn({ token: token.substring(0, 20) + '...' }, 'Failed to decode short token');
                 return managers.responseDispatcher.dispatch(res, {ok: false, code:401, errors: 'unauthorized'});
             };
         } catch(err){
-            console.log('failed to decode-2')
+            logger.error({ error: err.message }, 'Error verifying short token');
             return managers.responseDispatcher.dispatch(res, {ok: false, code:401, errors: 'unauthorized'});
         }
         next(decoded);

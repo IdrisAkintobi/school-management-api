@@ -3,12 +3,14 @@ const SchoolModel = require('../school/school.schema');
 const StudentModel = require('../student/student.schema');
 const validators = require('./classroom.validators');
 const mongoose = require('mongoose');
+const logger = require('../../libs/logger');
 
 module.exports = class Classroom {
-    constructor({ utils, cache, config, cortex, managers } = {}) {
+    constructor({ utils, cache, config, cortex, logger } = {}) {
             this.config = config;
             this.cortex = cortex;
             this.cache = cache;
+            this.logger = logger;
             this.validators = validators;
 
             this.httpExposed = [
@@ -53,12 +55,15 @@ module.exports = class Classroom {
             });
 
             await classroom.save();
+            this.logger.info({ classroomId: classroom._id, schoolId, name }, 'Classroom created successfully');
 
             return { classroom };
         } catch (err) {
             if (err.code === 11000) {
+                this.logger.warn({ schoolId, name, grade, section }, 'Duplicate classroom creation attempt');
                 return { error: 'Classroom with this name, grade, and section already exists in this school' };
             }
+            this.logger.error({ error: err.message, schoolId, name }, 'Failed to create classroom');
             return { error: 'Failed to create classroom' };
         }
     }
@@ -102,6 +107,7 @@ module.exports = class Classroom {
                 updateData,
                 { new: true, runValidators: true }
             );
+            this.logger.info({ classroomId, updates: Object.keys(updateData) }, 'Classroom updated successfully');
 
             return { classroom: updatedClassroom };
         } catch (err) {
@@ -204,6 +210,7 @@ module.exports = class Classroom {
             }
 
             await ClassroomModel.findByIdAndUpdate(classroomId, { deletedAt: new Date() });
+            this.logger.info({ classroomId, name: classroom.name }, 'Classroom deleted successfully');
 
             return { message: 'Classroom deleted successfully' };
         } catch (err) {
@@ -244,6 +251,7 @@ module.exports = class Classroom {
                 { deletedAt: null },
                 { new: true }
             );
+            this.logger.info({ classroomId, name: restoredClassroom.name }, 'Classroom restored successfully');
 
             return { classroom: restoredClassroom, message: 'Classroom restored successfully' };
         } catch (err) {

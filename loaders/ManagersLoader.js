@@ -7,6 +7,7 @@ const VirtualStack          = require('../managers/virtual_stack/VirtualStack.ma
 const ValidatorsLoader      = require('./ValidatorsLoader');
 const ResourceMeshLoader    = require('./ResourceMeshLoader');
 const utils                 = require('../libs/utils');
+const logger                = require('../libs/logger');
 
 const systemArch            = require('../static_arch/main.system');
 const TokenManager          = require('../managers/token/Token.manager');
@@ -33,6 +34,7 @@ module.exports = class ManagersLoader {
         this._preload();
         this.injectable = {
             utils,
+            logger,
             cache, 
             config,
             cortex,

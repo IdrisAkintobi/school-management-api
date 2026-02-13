@@ -5,10 +5,11 @@ const validators = require('./school.validators');
 const mongoose = require('mongoose');
 
 module.exports = class School {
-    constructor({ utils, cache, config, cortex, managers } = {}) {
+    constructor({ utils, cache, config, cortex, managers, logger } = {}) {
         this.config = config;
         this.cortex = cortex;
         this.cache = cache;
+        this.logger = logger;
         this.validators = validators;
         
         this.httpExposed = [
@@ -49,12 +50,15 @@ module.exports = class School {
             });
 
             await school.save();
+            this.logger.info({ schoolId: school._id, name }, 'School created successfully');
 
             return { school };
         } catch (err) {
             if (err.code === 11000) {
+                this.logger.warn({ name, address }, 'Duplicate school creation attempt');
                 return { error: 'School with this name and address already exists' };
             }
+            this.logger.error({ error: err.message, name }, 'Failed to create school');
             return { error: 'Failed to create school' };
         }
     }
@@ -89,6 +93,7 @@ module.exports = class School {
                 updateData,
                 { new: true, runValidators: true }
             );
+            this.logger.info({ schoolId, updates: Object.keys(updateData) }, 'School updated successfully');
 
             return { school: updatedSchool };
         } catch (err) {
@@ -183,6 +188,7 @@ module.exports = class School {
                 { deletedAt: new Date() },
                 { new: true }
             );
+            this.logger.info({ schoolId, name: school.name }, 'School deleted successfully');
 
             return { message: 'School deleted successfully', school };
         } catch (err) {
@@ -225,6 +231,7 @@ module.exports = class School {
                 { deletedAt: null },
                 { new: true }
             );
+            this.logger.info({ schoolId, name: restoredSchool.name }, 'School restored successfully');
 
             return { school: restoredSchool, message: 'School restored successfully' };
         } catch (err) {

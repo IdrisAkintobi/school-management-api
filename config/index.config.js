@@ -8,6 +8,8 @@ const USER_PORT                        = process.env.USER_PORT || 5111;
 const ADMIN_PORT                       = process.env.ADMIN_PORT || 5222;
 const ADMIN_URL                        = process.env.ADMIN_URL || `http://localhost:${ADMIN_PORT}`;
 const ENV                              = process.env.ENV || "development";
+const NODE_ENV                         = process.env.NODE_ENV || ENV;
+const LOG_LEVEL                        = process.env.LOG_LEVEL || (NODE_ENV === 'production' ? 'info' : 'debug');
 const REDIS_URI                        = process.env.REDIS_URI || "redis://127.0.0.1:6379";
 
 const CORTEX_REDIS                     = process.env.CORTEX_REDIS || REDIS_URI;
@@ -34,6 +36,8 @@ if(!LONG_TOKEN_SECRET || !SHORT_TOKEN_SECRET || !NACL_SECRET) {
 config.dotEnv = {
     SERVICE_NAME,
     ENV,
+    NODE_ENV,
+    LOG_LEVEL,
     CORTEX_REDIS,
     CORTEX_PREFIX,
     CORTEX_TYPE,

@@ -5,10 +5,11 @@ const validators = require('./student.validators');
 const mongoose = require('mongoose');
 
 module.exports = class Student {
-    constructor({ utils, cache, config, cortex, managers } = {}) {
+    constructor({ utils, cache, config, cortex, managers, logger} = {}) {
             this.config = config;
             this.cortex = cortex;
             this.cache = cache;
+            this.logger = logger;
             this.validators = validators;
 
             this.httpExposed = [
@@ -94,6 +95,13 @@ module.exports = class Student {
                 await ClassroomModel.findByIdAndUpdate(classroomId, { $inc: { currentEnrollment: enrolledStudents.length } });
             }
 
+            this.logger.info({ 
+                classroomId, 
+                schoolId, 
+                enrolled: enrolledStudents.length, 
+                failed: errors.length 
+            }, 'Student enrollment completed');
+
             return { 
                 students: enrolledStudents,
                 enrolled: enrolledStudents.length,
@@ -101,6 +109,7 @@ module.exports = class Student {
                 errors: errors.length > 0 ? errors : undefined
             };
         } catch (err) {
+            this.logger.error({ error: err.message, schoolId, classroomId }, 'Failed to enroll students');
             return { error: 'Failed to enroll students' };
         }
     }
@@ -159,6 +168,7 @@ module.exports = class Student {
                 updateData,
                 { new: true, runValidators: true }
             );
+            this.logger.info({ studentId, updates: Object.keys(updateData) }, 'Student updated successfully');
 
             return { student: updatedStudent };
         } catch (err) {
@@ -221,8 +231,14 @@ module.exports = class Student {
             student.classroomId = toClassroomId;
 
             await student.save();
-            await ClassroomModel.findByIdAndUpdate(fromClassroomId, { $inc: { currentEnrollment: -1 } });
-            await ClassroomModel.findByIdAndUpdate(toClassroomId, { $inc: { currentEnrollment: 1 } });
+
+            this.logger.info({ 
+                studentId, 
+                fromSchoolId: fromSchoolId.toString(), 
+                toSchoolId, 
+                fromClassroomId: fromClassroomId.toString(), 
+                toClassroomId 
+            }, 'Student transferred successfully');
 
             return { student, message: 'Student transferred successfully' };
         } catch (err) {
@@ -330,8 +346,8 @@ module.exports = class Student {
                 return { error: 'Student not found', code: 404 };
             }
 
-            await StudentModel.findByIdAndUpdate(studentId, { deletedAt: new Date() });
-            await ClassroomModel.findByIdAndUpdate(student.classroomId, { $inc: { currentEnrollment: -1 } });
+
+            this.logger.info({ studentId, classroomId: student.classroomId }, 'Student deleted successfully');
 
             return { message: 'Student deleted successfully' };
         } catch (err) {
@@ -382,7 +398,8 @@ module.exports = class Student {
                 { new: true }
             );
 
-            await ClassroomModel.findByIdAndUpdate(student.classroomId, { $inc: { currentEnrollment: 1 } });
+
+            this.logger.info({ studentId, classroomId: student.classroomId }, 'Student restored successfully');
 
             return { student: restoredStudent, message: 'Student restored successfully' };
         } catch (err) {

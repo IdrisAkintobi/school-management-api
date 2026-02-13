@@ -1,19 +1,20 @@
 const config                = require('./config/index.config.js');
+const logger                = require('./libs/logger');
 const Cortex                = require('ion-cortex');
 const ManagersLoader        = require('./loaders/ManagersLoader.js');
 const Aeon                  = require('aeon-machine');
 
 process.on('uncaughtException', err => {
-    console.log(`Uncaught Exception:`)
-    console.log(err, err.stack);
-
-    process.exit(1)
-})
+    logger.fatal({ error: err.message, stack: err.stack }, 'Uncaught Exception');
+    process.exit(1);
+});
 
 process.on('unhandledRejection', (reason, promise) => {
-    console.log('Unhandled rejection at ', promise, `reason:`, reason);
-    process.exit(1)
-})
+    logger.fatal({ reason, promise }, 'Unhandled Rejection');
+    process.exit(1);
+});
+
+logger.info({ env: process.env.NODE_ENV || 'development' }, 'Starting application');
 
 // Connect DB
 require('./connect/mongo')({
