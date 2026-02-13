@@ -1,5 +1,7 @@
 # School Management System API
 
+[![CI/CD](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
+
 A RESTful API for managing schools, classrooms, students, and administrators built with Node.js, Express, and MongoDB.
 
 ## Quick Start
@@ -46,12 +48,14 @@ npm run test:coverage   # Coverage report
 Tests use MongoDB Memory Server (no MongoDB installation needed).
 
 **Coverage:**
+
 - Admin: Registration, login, authorization
 - School: CRUD, soft delete, unique constraints
 - Classroom: Resources, capacity, age validation
 - Student: Enrollment, transfers, age checks
 
 **Troubleshooting:**
+
 - First run downloads MongoDB binaries (~100MB), then cached
 - Tests hanging? Check for missing `await` or unclosed connections
 
