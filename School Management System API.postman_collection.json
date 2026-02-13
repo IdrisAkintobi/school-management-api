@@ -21,7 +21,31 @@
                                     "    const response = pm.response.json();",
                                     "    pm.collectionVariables.set('superadminToken', response.data.shortToken);",
                                     "    pm.collectionVariables.set('superadminLongToken', response.data.longToken);",
-                                    "}"
+                                    "}",
+                                    "",
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Login response contains token if successful', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('token')) {",
+                                    "            pm.expect(jsonData.data.token).to.be.a('string');",
+                                    "        }",
+                                    "    }",
+                                    "})"
                                 ],
                                 "type": "text/javascript",
                                 "packages": {},
@@ -70,7 +94,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -163,6 +187,126 @@
                             ],
                             "cookie": [],
                             "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"admin\": {\n            \"id\": \"698d81bdc1515dc4b9246bc9\",\n            \"email\": \"superadmin@system.com\",\n            \"name\": \"Super Admin\",\n            \"role\": \"superadmin\",\n            \"schoolId\": null\n        },\n        \"longToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5Ijoic3VwZXJhZG1pbkBzeXN0ZW0uY29tIiwidXNlcklkIjoiNjk4ZDgxYmRjMTUxNWRjNGI5MjQ2YmM5IiwiaWF0IjoxNzcwODgxNDc4LCJleHAiOjE3NzE0ODYyNzh9.uGOJwqzMpu4ACdjiGGOawLqvcD4YAEmIHePjHC7LgUo\",\n        \"shortToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5Ijoic3VwZXJhZG1pbkBzeXN0ZW0uY29tIiwidXNlcklkIjoiNjk4ZDgxYmRjMTUxNWRjNGI5MjQ2YmM5Iiwic2Vzc2lvbklkIjoiaXUwSUlPTHhJRjFhWGhZWlpfdjRBIiwicm9sZSI6InN1cGVyYWRtaW4iLCJzY2hvb2xJZCI6bnVsbCwiaWF0IjoxNzcwODgxNDc4LCJleHAiOjE3NzA5Njc4Nzh9._8NMfA2GJfX5WxiG6UWkn0mfqBJCfAphPptDEBapERU\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+                        },
+                        {
+                            "name": "error - too many request",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"email\": \"superadmin@system.com\",\n  \"password\": \"SecurePassword123#\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/admin/login",
+                                    "host": ["{{baseUrl}}"],
+                                    "path": ["admin", "login"]
+                                }
+                            },
+                            "status": "Too Many Requests",
+                            "code": 429,
+                            "_postman_previewlanguage": "Text",
+                            "header": [
+                                {
+                                    "key": "Content-Security-Policy",
+                                    "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                                },
+                                {
+                                    "key": "Cross-Origin-Opener-Policy",
+                                    "value": "same-origin"
+                                },
+                                {
+                                    "key": "Cross-Origin-Resource-Policy",
+                                    "value": "same-origin"
+                                },
+                                {
+                                    "key": "Origin-Agent-Cluster",
+                                    "value": "?1"
+                                },
+                                {
+                                    "key": "Referrer-Policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "Strict-Transport-Security",
+                                    "value": "max-age=15552000; includeSubDomains"
+                                },
+                                {
+                                    "key": "X-Content-Type-Options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "X-DNS-Prefetch-Control",
+                                    "value": "off"
+                                },
+                                {
+                                    "key": "X-Download-Options",
+                                    "value": "noopen"
+                                },
+                                {
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN"
+                                },
+                                {
+                                    "key": "X-Permitted-Cross-Domain-Policies",
+                                    "value": "none"
+                                },
+                                {
+                                    "key": "X-XSS-Protection",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "X-RateLimit-Limit",
+                                    "value": "5"
+                                },
+                                {
+                                    "key": "X-RateLimit-Remaining",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Fri, 13 Feb 2026 16:44:14 GMT"
+                                },
+                                {
+                                    "key": "X-RateLimit-Reset",
+                                    "value": "1771001927"
+                                },
+                                {
+                                    "key": "Retry-After",
+                                    "value": "873"
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "text/html; charset=utf-8"
+                                },
+                                {
+                                    "key": "Content-Length",
+                                    "value": "56"
+                                },
+                                {
+                                    "key": "ETag",
+                                    "value": "W/\"38-x6esyD7LrL0CUUsfzwfLd1M+ub8\""
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                },
+                                {
+                                    "key": "Keep-Alive",
+                                    "value": "timeout=5"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "Too many authentication attempts, please try again later"
                         }
                     ]
                 },
@@ -172,16 +316,38 @@
                         {
                             "listen": "test",
                             "script": {
+                                "type": "text/javascript",
                                 "exec": [
                                     "if (pm.response.code === 200) {",
                                     "    const response = pm.response.json();",
                                     "    pm.collectionVariables.set('schoolAdminToken', response.data.shortToken);",
                                     "    pm.collectionVariables.set('schoolAdminLongToken', response.data.longToken);",
-                                    "}"
-                                ],
-                                "type": "text/javascript",
-                                "packages": {},
-                                "requests": {}
+                                    "}",
+                                    "",
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Login response contains token if successful', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('token')) {",
+                                    "            pm.expect(jsonData.data.token).to.be.a('string');",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
                             }
                         }
                     ],
@@ -226,7 +392,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -324,6 +490,39 @@
                 },
                 {
                     "name": "Create Short Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Token response contains token string if successful', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('token')) {",
+                                    "            pm.expect(jsonData.data.token).to.be.a('string');",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "auth": {
                             "type": "bearer",
@@ -357,7 +556,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -464,7 +663,7 @@
                             },
                             "status": "Unauthorized",
                             "code": 401,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -594,15 +793,43 @@
                         {
                             "listen": "test",
                             "script": {
+                                "type": "text/javascript",
                                 "exec": [
                                     "if (pm.response.code === 200) {",
                                     "    const response = pm.response.json();",
                                     "    console.log('Admin created:', response.data.admin.id);",
-                                    "}"
-                                ],
-                                "type": "text/javascript",
-                                "packages": {},
-                                "requests": {}
+                                    "}",
+                                    "",
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Admin registration returns valid admin object', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('createdAt')) {",
+                                    "            pm.expect(jsonData.data.createdAt).to.exist;",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
                             }
                         }
                     ],
@@ -651,7 +878,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -767,7 +994,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -865,6 +1092,44 @@
                 },
                 {
                     "name": "List Admins",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('List response contains array of admins', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && Array.isArray(jsonData.data)) {",
+                                    "        jsonData.data.forEach(function (admin) {",
+                                    "            if (admin.hasOwnProperty('id')) {",
+                                    "                pm.expect(admin.id).to.be.a('string');",
+                                    "            }",
+                                    "            if (admin.hasOwnProperty('name')) {",
+                                    "                pm.expect(admin.name).to.be.a('string');",
+                                    "            }",
+                                    "        });",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "GET",
                         "header": [
@@ -918,7 +1183,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -1055,15 +1320,43 @@
                         {
                             "listen": "test",
                             "script": {
+                                "type": "text/javascript",
                                 "exec": [
                                     "if (pm.response.code === 200) {",
                                     "    const response = pm.response.json();",
                                     "    pm.collectionVariables.set('schoolId', response.data.school.id);",
-                                    "}"
-                                ],
-                                "type": "text/javascript",
-                                "packages": {},
-                                "requests": {}
+                                    "}",
+                                    "",
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Created school has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('createdAt')) {",
+                                    "            pm.expect(jsonData.data.createdAt).to.exist;",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
                             }
                         }
                     ],
@@ -1109,7 +1402,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -1225,7 +1518,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -1323,6 +1616,44 @@
                 },
                 {
                     "name": "List Schools",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('List response contains array of schools', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && Array.isArray(jsonData.data)) {",
+                                    "        jsonData.data.forEach(function (school) {",
+                                    "            if (school.hasOwnProperty('id')) {",
+                                    "                pm.expect(school.id).to.be.a('string');",
+                                    "            }",
+                                    "            if (school.hasOwnProperty('name')) {",
+                                    "                pm.expect(school.name).to.be.a('string');",
+                                    "            }",
+                                    "        });",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -1366,7 +1697,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -1464,6 +1795,45 @@
                 },
                 {
                     "name": "Get School by ID",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('School object has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('createdAt')) {",
+                                    "            pm.expect(jsonData.data.createdAt).to.exist;",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -1504,7 +1874,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -1622,7 +1992,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -1719,140 +2089,46 @@
                     ]
                 },
                 {
-                    "name": "Restore School",
-                    "request": {
-                        "method": "PATCH",
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/school/restore?schoolId={{schoolId}}",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["school", "restore"],
-                            "query": [
-                                {
-                                    "key": "schoolId",
-                                    "value": "{{schoolId}}"
-                                }
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "success",
-                            "originalRequest": {
-                                "method": "PATCH",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{baseUrl}}/school/restore?schoolId={{schoolId}}",
-                                    "host": ["{{baseUrl}}"],
-                                    "path": ["school", "restore"],
-                                    "query": [
-                                        {
-                                            "key": "schoolId",
-                                            "value": "{{schoolId}}"
-                                        }
-                                    ]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": null,
-                            "header": [
-                                {
-                                    "key": "Content-Security-Policy",
-                                    "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-                                },
-                                {
-                                    "key": "Cross-Origin-Opener-Policy",
-                                    "value": "same-origin"
-                                },
-                                {
-                                    "key": "Cross-Origin-Resource-Policy",
-                                    "value": "same-origin"
-                                },
-                                {
-                                    "key": "Origin-Agent-Cluster",
-                                    "value": "?1"
-                                },
-                                {
-                                    "key": "Referrer-Policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "Strict-Transport-Security",
-                                    "value": "max-age=15552000; includeSubDomains"
-                                },
-                                {
-                                    "key": "X-Content-Type-Options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "X-DNS-Prefetch-Control",
-                                    "value": "off"
-                                },
-                                {
-                                    "key": "X-Download-Options",
-                                    "value": "noopen"
-                                },
-                                {
-                                    "key": "X-Frame-Options",
-                                    "value": "SAMEORIGIN"
-                                },
-                                {
-                                    "key": "X-Permitted-Cross-Domain-Policies",
-                                    "value": "none"
-                                },
-                                {
-                                    "key": "X-XSS-Protection",
-                                    "value": "0"
-                                },
-                                {
-                                    "key": "Access-Control-Allow-Origin",
-                                    "value": "*"
-                                },
-                                {
-                                    "key": "X-RateLimit-Limit",
-                                    "value": "100"
-                                },
-                                {
-                                    "key": "X-RateLimit-Remaining",
-                                    "value": "98"
-                                },
-                                {
-                                    "key": "Date",
-                                    "value": "Thu, 12 Feb 2026 17:18:31 GMT"
-                                },
-                                {
-                                    "key": "X-RateLimit-Reset",
-                                    "value": "1770917424"
-                                },
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json; charset=utf-8"
-                                },
-                                {
-                                    "key": "Content-Length",
-                                    "value": "470"
-                                },
-                                {
-                                    "key": "ETag",
-                                    "value": "W/\"1d6-i4uhAhFTvKlFDreUNDq2ZRNng2w\""
-                                },
-                                {
-                                    "key": "Connection",
-                                    "value": "keep-alive"
-                                },
-                                {
-                                    "key": "Keep-Alive",
-                                    "value": "timeout=5"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"school\": {\n            \"name\": \"Imperial College of Engineering\",\n            \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n            \"phone\": \"+911234567890\",\n            \"email\": \"info@ice.edu\",\n            \"principal\": \"Viru Sahastrabuddhe\",\n            \"establishedYear\": 1964,\n            \"isActive\": true,\n            \"deletedAt\": null,\n            \"createdBy\": \"698d81bdc1515dc4b9246bc9\",\n            \"createdAt\": \"2026-02-12T16:41:06.144Z\",\n            \"updatedAt\": \"2026-02-12T17:18:31.588Z\",\n            \"id\": \"698e02a2036fc138f76a88d2\"\n        },\n        \"message\": \"School restored successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
-                        }
-                    ]
-                },
-                {
                     "name": "Update School",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Updated school has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('updatedAt')) {",
+                                    "            pm.expect(jsonData.data.updatedAt).to.exist;",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -1898,7 +2174,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -2014,7 +2290,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -2112,6 +2388,37 @@
                 },
                 {
                     "name": "Delete School",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Delete response confirms deletion', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('message')) {",
+                                    "        pm.expect(jsonData.message).to.be.a('string');",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "DELETE",
                         "header": [
@@ -2157,7 +2464,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -2277,7 +2584,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -2372,6 +2679,175 @@
                             "body": "{\n    \"ok\": false,\n    \"data\": {},\n    \"errors\": [],\n    \"message\": \"School not found\"\n}"
                         }
                     ]
+                },
+                {
+                    "name": "Restore School",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Restored school has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "PATCH",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/school/restore?schoolId={{schoolId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["school", "restore"],
+                            "query": [
+                                {
+                                    "key": "schoolId",
+                                    "value": "{{schoolId}}"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "success",
+                            "originalRequest": {
+                                "method": "PATCH",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/school/restore?schoolId={{schoolId}}",
+                                    "host": ["{{baseUrl}}"],
+                                    "path": ["school", "restore"],
+                                    "query": [
+                                        {
+                                            "key": "schoolId",
+                                            "value": "{{schoolId}}"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "Text",
+                            "header": [
+                                {
+                                    "key": "Content-Security-Policy",
+                                    "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                                },
+                                {
+                                    "key": "Cross-Origin-Opener-Policy",
+                                    "value": "same-origin"
+                                },
+                                {
+                                    "key": "Cross-Origin-Resource-Policy",
+                                    "value": "same-origin"
+                                },
+                                {
+                                    "key": "Origin-Agent-Cluster",
+                                    "value": "?1"
+                                },
+                                {
+                                    "key": "Referrer-Policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "Strict-Transport-Security",
+                                    "value": "max-age=15552000; includeSubDomains"
+                                },
+                                {
+                                    "key": "X-Content-Type-Options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "X-DNS-Prefetch-Control",
+                                    "value": "off"
+                                },
+                                {
+                                    "key": "X-Download-Options",
+                                    "value": "noopen"
+                                },
+                                {
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN"
+                                },
+                                {
+                                    "key": "X-Permitted-Cross-Domain-Policies",
+                                    "value": "none"
+                                },
+                                {
+                                    "key": "X-XSS-Protection",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "X-RateLimit-Limit",
+                                    "value": "100"
+                                },
+                                {
+                                    "key": "X-RateLimit-Remaining",
+                                    "value": "98"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Thu, 12 Feb 2026 17:18:31 GMT"
+                                },
+                                {
+                                    "key": "X-RateLimit-Reset",
+                                    "value": "1770917424"
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json; charset=utf-8"
+                                },
+                                {
+                                    "key": "Content-Length",
+                                    "value": "470"
+                                },
+                                {
+                                    "key": "ETag",
+                                    "value": "W/\"1d6-i4uhAhFTvKlFDreUNDq2ZRNng2w\""
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                },
+                                {
+                                    "key": "Keep-Alive",
+                                    "value": "timeout=5"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"school\": {\n            \"name\": \"Imperial College of Engineering\",\n            \"address\": \"Shimla Road, Surajkund, Delhi NCR\",\n            \"phone\": \"+911234567890\",\n            \"email\": \"info@ice.edu\",\n            \"principal\": \"Viru Sahastrabuddhe\",\n            \"establishedYear\": 1964,\n            \"isActive\": true,\n            \"deletedAt\": null,\n            \"createdBy\": \"698d81bdc1515dc4b9246bc9\",\n            \"createdAt\": \"2026-02-12T16:41:06.144Z\",\n            \"updatedAt\": \"2026-02-12T17:18:31.588Z\",\n            \"id\": \"698e02a2036fc138f76a88d2\"\n        },\n        \"message\": \"School restored successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+                        }
+                    ]
                 }
             ],
             "auth": {
@@ -2417,8 +2893,38 @@
                                 "exec": [
                                     "if (pm.response.code === 200) {",
                                     "    const response = pm.response.json();",
-                                    "    pm.collectionVariables.set('classroomId', response.data.classroom._id);",
-                                    "}"
+                                    "    pm.collectionVariables.set('classroomId', response.data.classroom.id);",
+                                    "}",
+                                    "",
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Created classroom has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('createdAt')) {",
+                                    "            pm.expect(jsonData.data.createdAt).to.exist;",
+                                    "        }",
+                                    "    }",
+                                    "})"
                                 ],
                                 "type": "text/javascript",
                                 "packages": {},
@@ -2467,7 +2973,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -2583,7 +3089,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -2699,7 +3205,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -2797,6 +3303,44 @@
                 },
                 {
                     "name": "List Classrooms",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('List response contains array of classrooms', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && Array.isArray(jsonData.data)) {",
+                                    "        jsonData.data.forEach(function (classroom) {",
+                                    "            if (classroom.hasOwnProperty('id')) {",
+                                    "                pm.expect(classroom.id).to.be.a('string');",
+                                    "            }",
+                                    "            if (classroom.hasOwnProperty('name')) {",
+                                    "                pm.expect(classroom.name).to.be.a('string');",
+                                    "            }",
+                                    "        });",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -2840,7 +3384,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -2938,6 +3482,45 @@
                 },
                 {
                     "name": "Get Classroom by ID",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Classroom object has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('createdAt')) {",
+                                    "            pm.expect(jsonData.data.createdAt).to.exist;",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -2973,7 +3556,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -3071,6 +3654,45 @@
                 },
                 {
                     "name": "Update Classroom",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Updated classroom has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('updatedAt')) {",
+                                    "            pm.expect(jsonData.data.updatedAt).to.exist;",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -3112,7 +3734,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -3210,6 +3832,37 @@
                 },
                 {
                     "name": "Delete Classroom",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Delete response confirms deletion', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('message')) {",
+                                    "        pm.expect(jsonData.message).to.be.a('string');",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "DELETE",
                         "header": [
@@ -3251,7 +3904,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -3349,6 +4002,42 @@
                 },
                 {
                     "name": "Restore Classroom",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Restored classroom has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "PATCH",
                         "header": [],
@@ -3384,7 +4073,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -3522,9 +4211,57 @@
                             "listen": "test",
                             "script": {
                                 "exec": [
-                                    "if (pm.response.code === 200) {",
-                                    "    const response = pm.response.json();",
-                                    "    pm.collectionVariables.set('studentId', response.data.student._id);",
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "});",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "});",
+                                    "",
+                                    "const jsonData = pm.response.json();",
+                                    "",
+                                    "pm.test('Top-level ok field is true if present', function () {",
+                                    "    if (jsonData.hasOwnProperty('ok')) {",
+                                    "        pm.expect(jsonData.ok).to.be.true;",
+                                    "    }",
+                                    "});",
+                                    "",
+                                    "pm.test('data.students array exists and has length > 0 if present', function () {",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data.hasOwnProperty('students')) {",
+                                    "        pm.expect(jsonData.data.students).to.be.an('array');",
+                                    "        pm.expect(jsonData.data.students.length).to.be.greaterThan(0);",
+                                    "    }",
+                                    "});",
+                                    "",
+                                    "pm.test('Each student has required key fields when present', function () {",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data.hasOwnProperty('students') && Array.isArray(jsonData.data.students)) {",
+                                    "        jsonData.data.students.forEach((student, index) => {",
+                                    "            if (student.hasOwnProperty('schoolId')) {",
+                                    "                pm.expect(student.schoolId, `Student ${index} schoolId`).to.exist;",
+                                    "            }",
+                                    "            if (student.hasOwnProperty('classroomId')) {",
+                                    "                pm.expect(student.classroomId, `Student ${index} classroomId`).to.exist;",
+                                    "            }",
+                                    "            if (student.hasOwnProperty('firstName')) {",
+                                    "                pm.expect(student.firstName, `Student ${index} firstName`).to.exist;",
+                                    "            }",
+                                    "            if (student.hasOwnProperty('lastName')) {",
+                                    "                pm.expect(student.lastName, `Student ${index} lastName`).to.exist;",
+                                    "            }",
+                                    "            if (student.hasOwnProperty('dateOfBirth')) {",
+                                    "                pm.expect(student.dateOfBirth, `Student ${index} dateOfBirth`).to.exist;",
+                                    "            }",
+                                    "        });",
+                                    "    }",
+                                    "});",
+                                    "",
+                                    "// Set studentId collection variable from response if available",
+                                    "if (jsonData.data && Array.isArray(jsonData.data.students) && jsonData.data.students.length > 0) {",
+                                    "    const studentWithId = jsonData.data.students.find(student => student.id);",
+                                    "    if (studentWithId && studentWithId.id) {",
+                                    "        pm.collectionVariables.set('studentId', studentWithId.id);",
+                                    "    }",
                                     "}"
                                 ],
                                 "type": "text/javascript",
@@ -3574,7 +4311,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -3690,7 +4427,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -3788,6 +4525,44 @@
                 },
                 {
                     "name": "List Students",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('List response contains array of students', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && Array.isArray(jsonData.data)) {",
+                                    "        jsonData.data.forEach(function (student) {",
+                                    "            if (student.hasOwnProperty('id')) {",
+                                    "                pm.expect(student.id).to.be.a('string');",
+                                    "            }",
+                                    "            if (student.hasOwnProperty('name')) {",
+                                    "                pm.expect(student.name).to.be.a('string');",
+                                    "            }",
+                                    "        });",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -3831,7 +4606,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -3929,6 +4704,45 @@
                 },
                 {
                     "name": "Get Student by ID",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Student object has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('createdAt')) {",
+                                    "            pm.expect(jsonData.data.createdAt).to.exist;",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -3964,7 +4778,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -4077,7 +4891,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -4175,6 +4989,45 @@
                 },
                 {
                     "name": "Update Student",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Updated student has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('updatedAt')) {",
+                                    "            pm.expect(jsonData.data.updatedAt).to.exist;",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -4216,7 +5069,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -4313,146 +5166,38 @@
                     ]
                 },
                 {
-                    "name": "Transfer Student",
-                    "request": {
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"toSchoolId\": \"698d8933151be5850a882f2f\",\n  \"toClassroomId\": \"698e30a07ac2fcf7a1bc0964\",\n  \"reason\": \"Family relocation\"\n}"
-                        },
-                        "url": {
-                            "raw": "{{baseUrl}}/student/transfer",
-                            "host": ["{{baseUrl}}"],
-                            "path": ["student", "transfer"]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "success",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [
-                                    {
-                                        "key": "Content-Type",
-                                        "value": "application/json"
-                                    }
-                                ],
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"toSchoolId\": \"698d8933151be5850a882f2f\",\n  \"toClassroomId\": \"698e30a07ac2fcf7a1bc0964\",\n  \"reason\": \"Family relocation\"\n}"
-                                },
-                                "url": {
-                                    "raw": "{{baseUrl}}/student/transfer",
-                                    "host": ["{{baseUrl}}"],
-                                    "path": ["student", "transfer"]
-                                }
-                            },
-                            "status": "OK",
-                            "code": 200,
-                            "_postman_previewlanguage": null,
-                            "header": [
-                                {
-                                    "key": "Content-Security-Policy",
-                                    "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-                                },
-                                {
-                                    "key": "Cross-Origin-Opener-Policy",
-                                    "value": "same-origin"
-                                },
-                                {
-                                    "key": "Cross-Origin-Resource-Policy",
-                                    "value": "same-origin"
-                                },
-                                {
-                                    "key": "Origin-Agent-Cluster",
-                                    "value": "?1"
-                                },
-                                {
-                                    "key": "Referrer-Policy",
-                                    "value": "no-referrer"
-                                },
-                                {
-                                    "key": "Strict-Transport-Security",
-                                    "value": "max-age=15552000; includeSubDomains"
-                                },
-                                {
-                                    "key": "X-Content-Type-Options",
-                                    "value": "nosniff"
-                                },
-                                {
-                                    "key": "X-DNS-Prefetch-Control",
-                                    "value": "off"
-                                },
-                                {
-                                    "key": "X-Download-Options",
-                                    "value": "noopen"
-                                },
-                                {
-                                    "key": "X-Frame-Options",
-                                    "value": "SAMEORIGIN"
-                                },
-                                {
-                                    "key": "X-Permitted-Cross-Domain-Policies",
-                                    "value": "none"
-                                },
-                                {
-                                    "key": "X-XSS-Protection",
-                                    "value": "0"
-                                },
-                                {
-                                    "key": "Access-Control-Allow-Origin",
-                                    "value": "*"
-                                },
-                                {
-                                    "key": "X-RateLimit-Limit",
-                                    "value": "100"
-                                },
-                                {
-                                    "key": "X-RateLimit-Remaining",
-                                    "value": "86"
-                                },
-                                {
-                                    "key": "Date",
-                                    "value": "Thu, 12 Feb 2026 19:58:52 GMT"
-                                },
-                                {
-                                    "key": "X-RateLimit-Reset",
-                                    "value": "1770926405"
-                                },
-                                {
-                                    "key": "Content-Type",
-                                    "value": "application/json; charset=utf-8"
-                                },
-                                {
-                                    "key": "Content-Length",
-                                    "value": "818"
-                                },
-                                {
-                                    "key": "ETag",
-                                    "value": "W/\"332-3R7p/vBLrnB4rBuYU5F6A7T1NjM\""
-                                },
-                                {
-                                    "key": "Connection",
-                                    "value": "keep-alive"
-                                },
-                                {
-                                    "key": "Keep-Alive",
-                                    "value": "timeout=5"
-                                }
-                            ],
-                            "cookie": [],
-                            "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"student\": {\n            \"schoolId\": \"698d8933151be5850a882f2f\",\n            \"classroomId\": \"698e30a07ac2fcf7a1bc0964\",\n            \"firstName\": \"Ranchoddas\",\n            \"lastName\": \"Chanchad\",\n            \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n            \"gender\": \"male\",\n            \"email\": \"rancho@ice.edu\",\n            \"phone\": \"+919876543210\",\n            \"address\": \"New Address, Delhi\",\n            \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n            \"guardianPhone\": \"+911234567891\",\n            \"isActive\": true,\n            \"enrollmentDate\": \"2026-02-12T19:38:06.647Z\",\n            \"transferHistory\": [\n                {\n                    \"fromSchoolId\": \"698e02a2036fc138f76a88d2\",\n                    \"toSchoolId\": \"698d8933151be5850a882f2f\",\n                    \"date\": \"2026-02-12T19:58:52.550Z\",\n                    \"reason\": \"Family relocation\",\n                    \"_id\": \"698e30fc7ac2fcf7a1bc0969\"\n                }\n            ],\n            \"createdAt\": \"2026-02-12T19:38:06.649Z\",\n            \"updatedAt\": \"2026-02-12T19:58:52.558Z\",\n            \"id\": \"698e2c1e7ac2fcf7a1bc094c\"\n        },\n        \"message\": \"Student transferred successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
-                        }
-                    ]
-                },
-                {
                     "name": "Delete Student",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Delete response confirms deletion', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('message')) {",
+                                    "        pm.expect(jsonData.message).to.be.a('string');",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "DELETE",
                         "header": [
@@ -4494,7 +5239,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -4610,7 +5355,7 @@
                             },
                             "status": "Bad Request",
                             "code": 400,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -4708,6 +5453,42 @@
                 },
                 {
                     "name": "Restore Student",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Restored student has valid fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
                     "request": {
                         "method": "PATCH",
                         "header": [],
@@ -4743,7 +5524,7 @@
                             },
                             "status": "OK",
                             "code": 200,
-                            "_postman_previewlanguage": null,
+                            "_postman_previewlanguage": "Text",
                             "header": [
                                 {
                                     "key": "Content-Security-Policy",
@@ -4838,6 +5619,181 @@
                             "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"student\": {\n            \"schoolId\": \"698e02a2036fc138f76a88d2\",\n            \"classroomId\": \"698e2a417ac2fcf7a1bc0940\",\n            \"firstName\": \"Farhan\",\n            \"lastName\": \"Qureshi\",\n            \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n            \"gender\": \"male\",\n            \"email\": \"farhan@ice.edu\",\n            \"phone\": \"+911234567892\",\n            \"address\": \"Delhi, India\",\n            \"guardianName\": \"Mr. Qureshi\",\n            \"guardianPhone\": \"+911234567893\",\n            \"isActive\": true,\n            \"enrollmentDate\": \"2026-02-12T19:38:06.652Z\",\n            \"transferHistory\": [],\n            \"createdAt\": \"2026-02-12T19:38:06.652Z\",\n            \"updatedAt\": \"2026-02-12T20:09:49.682Z\",\n            \"id\": \"698e2c1e7ac2fcf7a1bc094f\"\n        },\n        \"message\": \"Student restored successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
                         }
                     ]
+                },
+                {
+                    "name": "Transfer Student",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Status code is in 2xx range', function () {",
+                                    "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                                    "})",
+                                    "",
+                                    "pm.test('Response is valid JSON', function () {",
+                                    "    pm.response.to.be.json;",
+                                    "})",
+                                    "",
+                                    "pm.test('Response data field is not empty if present', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data')) {",
+                                    "        pm.expect(jsonData.data).to.not.be.empty;",
+                                    "    }",
+                                    "})",
+                                    "",
+                                    "pm.test('Transfer response has valid student fields', function () {",
+                                    "    const jsonData = pm.response.json();",
+                                    "    if (jsonData.hasOwnProperty('data') && jsonData.data) {",
+                                    "        if (jsonData.data.hasOwnProperty('id')) {",
+                                    "            pm.expect(jsonData.data.id).to.be.a('string');",
+                                    "        }",
+                                    "        if (jsonData.data.hasOwnProperty('name')) {",
+                                    "            pm.expect(jsonData.data.name).to.be.a('string');",
+                                    "        }",
+                                    "    }",
+                                    "})"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"toSchoolId\": \"698d8933151be5850a882f2f\",\n  \"toClassroomId\": \"698e30a07ac2fcf7a1bc0964\",\n  \"reason\": \"Family relocation\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/student/transfer",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["student", "transfer"]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "success",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"toSchoolId\": \"698d8933151be5850a882f2f\",\n  \"toClassroomId\": \"698e30a07ac2fcf7a1bc0964\",\n  \"reason\": \"Family relocation\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/student/transfer",
+                                    "host": ["{{baseUrl}}"],
+                                    "path": ["student", "transfer"]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "Text",
+                            "header": [
+                                {
+                                    "key": "Content-Security-Policy",
+                                    "value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+                                },
+                                {
+                                    "key": "Cross-Origin-Opener-Policy",
+                                    "value": "same-origin"
+                                },
+                                {
+                                    "key": "Cross-Origin-Resource-Policy",
+                                    "value": "same-origin"
+                                },
+                                {
+                                    "key": "Origin-Agent-Cluster",
+                                    "value": "?1"
+                                },
+                                {
+                                    "key": "Referrer-Policy",
+                                    "value": "no-referrer"
+                                },
+                                {
+                                    "key": "Strict-Transport-Security",
+                                    "value": "max-age=15552000; includeSubDomains"
+                                },
+                                {
+                                    "key": "X-Content-Type-Options",
+                                    "value": "nosniff"
+                                },
+                                {
+                                    "key": "X-DNS-Prefetch-Control",
+                                    "value": "off"
+                                },
+                                {
+                                    "key": "X-Download-Options",
+                                    "value": "noopen"
+                                },
+                                {
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN"
+                                },
+                                {
+                                    "key": "X-Permitted-Cross-Domain-Policies",
+                                    "value": "none"
+                                },
+                                {
+                                    "key": "X-XSS-Protection",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*"
+                                },
+                                {
+                                    "key": "X-RateLimit-Limit",
+                                    "value": "100"
+                                },
+                                {
+                                    "key": "X-RateLimit-Remaining",
+                                    "value": "86"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Thu, 12 Feb 2026 19:58:52 GMT"
+                                },
+                                {
+                                    "key": "X-RateLimit-Reset",
+                                    "value": "1770926405"
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json; charset=utf-8"
+                                },
+                                {
+                                    "key": "Content-Length",
+                                    "value": "818"
+                                },
+                                {
+                                    "key": "ETag",
+                                    "value": "W/\"332-3R7p/vBLrnB4rBuYU5F6A7T1NjM\""
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                },
+                                {
+                                    "key": "Keep-Alive",
+                                    "value": "timeout=5"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"ok\": true,\n    \"data\": {\n        \"student\": {\n            \"schoolId\": \"698d8933151be5850a882f2f\",\n            \"classroomId\": \"698e30a07ac2fcf7a1bc0964\",\n            \"firstName\": \"Ranchoddas\",\n            \"lastName\": \"Chanchad\",\n            \"dateOfBirth\": \"1985-09-05T00:00:00.000Z\",\n            \"gender\": \"male\",\n            \"email\": \"rancho@ice.edu\",\n            \"phone\": \"+919876543210\",\n            \"address\": \"New Address, Delhi\",\n            \"guardianName\": \"Ranchoddas Shamaldas Chanchad Sr.\",\n            \"guardianPhone\": \"+911234567891\",\n            \"isActive\": true,\n            \"enrollmentDate\": \"2026-02-12T19:38:06.647Z\",\n            \"transferHistory\": [\n                {\n                    \"fromSchoolId\": \"698e02a2036fc138f76a88d2\",\n                    \"toSchoolId\": \"698d8933151be5850a882f2f\",\n                    \"date\": \"2026-02-12T19:58:52.550Z\",\n                    \"reason\": \"Family relocation\",\n                    \"_id\": \"698e30fc7ac2fcf7a1bc0969\"\n                }\n            ],\n            \"createdAt\": \"2026-02-12T19:38:06.649Z\",\n            \"updatedAt\": \"2026-02-12T19:58:52.558Z\",\n            \"id\": \"698e2c1e7ac2fcf7a1bc094c\"\n        },\n        \"message\": \"Student transferred successfully\"\n    },\n    \"errors\": [],\n    \"message\": \"\"\n}"
+                        }
+                    ]
                 }
             ],
             "auth": {
@@ -4872,10 +5828,35 @@
             ]
         }
     ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [""]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [""]
+            }
+        }
+    ],
     "variable": [
         {
             "key": "baseUrl",
             "value": "http://localhost:5111/api"
+        },
+        {
+            "key": "baseUrl",
+            "value": "",
+            "disabled": true
         },
         {
             "key": "superadminToken",
